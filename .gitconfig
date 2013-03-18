@@ -1,13 +1,12 @@
-[user]
-  name = beco-ippei
-  email = beco.ippei@gmail.com
-
 [color]
   ui = auto
 
 [alias]
   ll = log --decorate --oneline --graph
+  s = status
 
+[user]
+  name = beco-ippei
+  email = beco.ippei@gmail.com
 [core]
   excludesfile = /home/ippei/.gitignore_global
-

@@ -31,11 +31,14 @@ ZSH_THEME="ippei"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git rbenv rails ruby)
+plugins=(git rbenv rails ruby svn php)
+
+# Customize to your needs...
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH
 
 source $ZSH/oh-my-zsh.sh
 source $HOME/.zsh/ruby.zsh
+source $HOME/.zsh/dev.zsh
 source $HOME/.zsh/custom.zsh
 
-# Customize to your needs...
-export PATH=/home/ippei/sbin:/home/ippei/tool/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH
+source $HOME/.zsh/local.zsh

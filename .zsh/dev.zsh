@@ -1,3 +1,3 @@
-alias mysql55="mysql -S/var/run/mysqld/mysqld.sock -uroot -p"
+alias aws='ssh -i ~/.ssh/beco-ubuntu.pem ippei@54.248.76.36'
+alias aws-ami='ssh -i ~/.ssh/beco-ubuntu.pem ippei@54.249.251.33'
 
-alias ec2_ssh='ssh -i ~/.ssh/beco-ubuntu.pem ippei@54.248.76.36'
