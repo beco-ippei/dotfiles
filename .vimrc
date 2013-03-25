@@ -150,7 +150,7 @@ let g:syntastic_php_php_args = '-l'
 "--------------------------------------------------
 " ,is: シェルを起動
 nnoremap <silent> ,is :VimShell<CR>
-" " ,irb: irbを非同期で起動
+" ,irb: irbを非同期で起動
 nnoremap <silent> ,irb :VimShellInteractive irb<CR>
 
 "--------------------------------------------------
