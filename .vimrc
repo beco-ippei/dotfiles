@@ -1,6 +1,7 @@
 "--------------------------------------------------
 " 基本的な設定
 "--------------------------------------------------
+"TODO OS別で設定変えたい
 set nocompatible
 set fileformats=unix,dos,mac
 set vb t_vb=
@@ -12,8 +13,8 @@ set backspace=indent,eol,start
 " Mac ClipBoard
 "vmap <silent> sy :!pbcopy; pbpaste<CR>
 "map <silent> sp <esc>o<esc>v:!pbpaste<CR>
-"vmap ,y "*y
-"nmap ,p "*p
+vmap ,y "*y
+nmap ,p "*p
 
 
 "--------------------------------------------------
@@ -75,9 +76,11 @@ if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
   call neobundle#rc(expand('~/.vim/bundle/'))
 endif
+" Let NeoBundle manage NeoBundle
+"NeoBundleFetch 'Shougo/neobundle.vim'
 " originalrepos on github
 NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimproc'
+NeoBundle 'Shougo/vimproc' ", { build : { mac : make -f make_mac.mak, unix : make -f make_unix.mak, }, }
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/unite.vim'
@@ -87,6 +90,26 @@ NeoBundle 'Shougo/neocomplcache'
 "NeoBundle 'project.vim'
 
 NeoBundle 'scrooloose/syntastic'
+
+" for ruby development
+NeoBundle 'ruby.vim'
+NeoBundle 'rails.vim'
+
+" Brief help
+" :NeoBundleList          - list configured bundles
+" :NeoBundleInstall(!)    - install(update) bundles
+" :NeoBundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+
+" search plugins from > http://vim-scripts.org/vim/scripts.html
+" or :Unite neobundle/search
+
+" Installation check.
+if neobundle#exists_not_installed_bundles()
+  echomsg 'Not installed bundles : ' .
+    \ string(neobundle#get_not_installed_bundle_names())
+  echomsg 'Please execute ":NeoBundleInstall" command.'
+  "finish
+endif
 
 
 "--------------------------------------------------
@@ -126,6 +149,7 @@ let g:syntastic_php_php_args = '-l'
 "--------------------------------------------------
 " コピーなど
 "--------------------------------------------------
+" Ctrl-P で何度もPasteしたい
 vnoremap <silent> <C-p> "0p
 
 "--------------------------------------------------
@@ -217,6 +241,7 @@ nnoremap <c-k> 5k
 " カーソル行のハイライト
 "--------------------------------------------------
 set cursorline
+"TODO: これ、なんだろう。。
 "augroup cch
 "  autocmd! cch
 "  autocmd WinLeave * set nocursorline
@@ -255,3 +280,89 @@ function! RTrim()
 endfunction
 
 autocmd BufWritePre *.rb,*.js call RTrim()
+
+
+"TODO: そのうちやる
+"----------------------------------------------------
+" vim-rubyの設定
+"----------------------------------------------------
+"<C-Space>でomni補完
+"imap <C-Space> <C-x><C-o>
+"imap <c-Space> <c-x><c-o>
+
+let ruby_space_errors=1
+"compiler ruby
+
+"Rubyのオムニ補完を設定(ft-ruby-omni)
+"let g:rubycomplete_buffer_loading = 1
+"let g:rubycomplete_classes_in_global = 1
+"let g:rubycomplete_rails = 1
+autocmd FileType perl,rb,php,html,erl set cindent
+autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
+"autocmd FileType ruby,eruby set omnifunc=syntaxcomplete#Complete
+autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+
+"------------------------------------
+" rails.vim
+"------------------------------------
+""{{{
+"有効化
+let g:rails_some_option = 1
+let g:rails_level = 2
+let g:rails_syntax = 1
+let g:rails_statusline = 1
+let g:rails_url='http://localhost:3000'
+let g:rails_subversion=0
+" let g:dbext_default_SQLITE_bin = 'mysql2'
+"let g:rails_default_file='config/database.yml'   " ???
+let g:rails_default_file="app/controllers/application.rb"
+let g:rails_devalut_database = 'mysql'
+" let g:rails_ctags_arguments = ''
+
+function! SetUpRailsSetting()
+  nmap <buffer><C-C> <Nop>
+  imap <buffer><C-C> <Nop>
+  map <buffer><C-_><C-C> <Nop>
+
+  nmap <buffer><Space>r :R<CR>
+  nmap <buffer><Space>a :A<CR>
+  nmap <buffer><Space>m :Rmodel<Space>
+  nmap <buffer><Space>c :Rcontroller<Space>
+  nmap <buffer><Space>v :Rview<Space>
+  nmap <buffer><Space>s :Rspec<Space>
+"  nmap <buffer><Space>m :Rgen model<Space>
+"  nmap <buffer><Space>c :Rgen contoller<Space>
+"  nmap <buffer><Space>s :Rgen scaffold<Space>
+  nmap <buffer><Space>p :Rpreview<CR>
+  au FileType ruby,eruby,ruby.rspec let g:neocomplcache_dictionary_filetype_lists = {
+        \'ruby' : $HOME.'/.vim/dict/rails.dict',
+        \'eruby' : $HOME.'/.vim/dict/rails.dict'
+        \}
+  setl dict+=~/.vim/dict/rails.dict
+  setl dict+=~/.vim/dict/ruby.dict
+endfunction
+autocmd User Rails call SetUpRailsSetting()
+"}}}
+
+""----------------------------------------------------
+"" RSpec関連
+""----------------------------------------------------
+"let g:quickrun_config = {}
+"let g:quickrun_config['ruby.rspec'] = {'command': 'spec'}
+
+"TODO: 以下は多分残骸
+" rails.vim
+"let g:rails_level=4
+"let g:rails_default_file="app/controllers/application.rb"
+"let g:rails_default_database="mysql"
+
+" rubycomplete.vim
+"autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
+"autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+"autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+"autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+
