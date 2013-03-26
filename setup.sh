@@ -8,6 +8,9 @@ files+=(".zsh/custom.zsh" ".zsh/dev.zsh" ".zsh/ruby.zsh")
 if [ ! -d "_backup/" ]; then
   mkdir _backup/
 fi
+if [ ! -d "$HOME/.zsh/" ]; then
+  mkdir $HOME/.zsh/
+fi
 
 curdir=`pwd`
 
