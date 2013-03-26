@@ -1,5 +1,5 @@
 #!/bin/zsh
-files=(".gitconfig" ".gitignore" ".gitignore_global")
+files=(".gitconfig" ".gitignore_global")
 files+=(".screenrc" ".tmux.conf" ".vimrc" ".vimshrc" ".zshrc")
 files+=(".rspec")
 files+=(".oh-my-zsh/themes/ippei.zsh-theme")
