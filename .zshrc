@@ -41,4 +41,6 @@ source $HOME/.zsh/ruby.zsh
 source $HOME/.zsh/dev.zsh
 source $HOME/.zsh/custom.zsh
 
-source $HOME/.zsh/local.zsh
+if [ -f $HOME/.zsh/local.sh ]; then
+  source $HOME/.zsh/local.zsh
+fi

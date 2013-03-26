@@ -145,7 +145,14 @@ set statusline+=%*
 
 let g:syntastic_php_php_args = '-l'
 
- 
+"--------------------------------------------------
+" VimShell
+"--------------------------------------------------
+" ,is: シェルを起動
+nnoremap <silent> ,is :VimShell<CR>
+" ,irb: irbを非同期で起動
+nnoremap <silent> ,irb :VimShellInteractive irb<CR>
+
 "--------------------------------------------------
 " コピーなど
 "--------------------------------------------------
@@ -190,6 +197,9 @@ set list
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 
 set statusline=%F%m%r%h%w\%=[FORMAT=%{&ff}]\[TYPE=%Y]\%{'[ENC='.(&fenc!=''?&fenc:&enc).']'}\[POS=%05l/%05L]
+
+"記号の見た目調整
+set ambiwidth=double
 
 "--------------------------------------------------
 " 色の調整
