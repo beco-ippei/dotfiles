@@ -72,6 +72,9 @@ au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
 "--------------------------------------------------
 filetype off    "TODO what does this?
 
+" if NeoBundle not installed, exec below commands
+"$ mkdir -p ~/.vim/bundle
+"$ git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
   call neobundle#rc(expand('~/.vim/bundle/'))
