@@ -35,4 +35,10 @@ for file in $files[@]; do
   esac
 done
 
+# other type files
+file=".zsh/local_env.zsh"
+if [ ! -f $HOME/$file ]; then
+  cp $curdir/$file $HOME/$file
+fi
+
 echo "setup finished !"

@@ -1,3 +1,7 @@
+if [ -f $HOME/.zsh/local_env.zsh ]; then
+  source $HOME/.zsh/local_env.zsh
+fi
+
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
@@ -40,7 +44,6 @@ source $ZSH/oh-my-zsh.sh
 source $HOME/.zsh/ruby.zsh
 source $HOME/.zsh/dev.zsh
 source $HOME/.zsh/custom.zsh
-
-if [ -f $HOME/.zsh/local.sh ]; then
+if [ -f $HOME/.zsh/local.zsh ]; then
   source $HOME/.zsh/local.zsh
 fi
