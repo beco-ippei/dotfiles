@@ -157,6 +157,11 @@ nnoremap <silent> ,is :VimShell<CR>
 nnoremap <silent> ,irb :VimShellInteractive irb<CR>
 
 "--------------------------------------------------
+" QuickRun
+"--------------------------------------------------
+nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+
+"--------------------------------------------------
 " コピーなど
 "--------------------------------------------------
 " Ctrl-P で何度もPasteしたい
