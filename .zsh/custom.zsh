@@ -8,6 +8,7 @@ alias :q='exit'
 alias greps='grep -rn --exclude-dir "\.svn" '
 alias swap='~/tools/bin/swap.sh'
 alias iphp='~/tools/bin/iphp'
+alias l='ls -lA1'
 
 
 # コマンド履歴検索
