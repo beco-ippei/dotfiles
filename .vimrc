@@ -156,6 +156,12 @@ nnoremap <silent> ,is :VimShell<CR>
 " ,irb: irbを非同期で起動
 nnoremap <silent> ,irb :VimShellInteractive irb<CR>
 
+
+"--------------------------------------------------
+" QuickRun
+"--------------------------------------------------
+nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+
 "--------------------------------------------------
 " ctags
 "--------------------------------------------------
