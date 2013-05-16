@@ -175,10 +175,17 @@ nnoremap <silent> ,is :VimShell<CR>
 " ,irb: irbを非同期で起動
 nnoremap <silent> ,irb :VimShellInteractive irb<CR>
 
+
 "--------------------------------------------------
 " QuickRun
 "--------------------------------------------------
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+
+"--------------------------------------------------
+" ctags
+"--------------------------------------------------
+" tagsジャンプの時に複数ある時は一覧表示
+nnoremap <C-]> g<C-]>
 
 "--------------------------------------------------
 " コピーなど
