@@ -4,12 +4,16 @@ files+=(".screenrc" ".tmux.conf" ".vimrc" ".vimshrc" ".zshrc")
 files+=(".rspec")
 files+=(".oh-my-zsh/themes/ippei.zsh-theme")
 files+=(".zsh/custom.zsh" ".zsh/dev.zsh" ".zsh/ruby.zsh")
+files+=(".bundler/config")
 
 if [ ! -d "_backup/" ]; then
   mkdir _backup/
 fi
 if [ ! -d "$HOME/.zsh/" ]; then
   mkdir $HOME/.zsh/
+fi
+if [ ! -d "$HOME/.bundler/" ]; then
+  mkdir $HOME/.bundler/
 fi
 
 curdir=`pwd`
