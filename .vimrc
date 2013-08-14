@@ -93,6 +93,9 @@ NeoBundle 'Shougo/neocomplcache'
 "NeoBundle 'project.vim'
 
 NeoBundle 'scrooloose/syntastic'
+NeoBundle 'szw/vim-tags'
+"NeoBundle 'kien/ctrlp.vim'
+"TODO うまく入ってない模様
 
 " for ruby development
 NeoBundle 'ruby.vim'
@@ -121,7 +124,7 @@ endif
 " set: dictionary= で辞書ファイルを指定
 " #php -r '$f=get_defined_functions();echo join("\n",$f["internal"]);'|sort > ~/.vim/dict/php.dict
 " or http://bit.ly/WlfSib   ... or nothing to do?
-autocmd BufRead *.php\|*.logic|*.tpl :set dictionary=~/.vim/dict/php.dict filetype=php
+au FileType php :set dictionary=~/.vim/dict/php.dict
 
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_camel_case_completion = 1
@@ -175,7 +178,6 @@ nnoremap <silent> ,is :VimShell<CR>
 " ,irb: irbを非同期で起動
 nnoremap <silent> ,irb :VimShellInteractive irb<CR>
 
-
 "--------------------------------------------------
 " QuickRun
 "--------------------------------------------------
@@ -186,6 +188,12 @@ nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() 
 "--------------------------------------------------
 " tagsジャンプの時に複数ある時は一覧表示
 nnoremap <C-]> g<C-]>
+"
+" filetype で切り替えるべき
+au FileType php set tags+=$HOME/.tags/php.tags
+au FileType php let g:vim_tags_project_tags_command = "ctags --languages=php -f ~/.tags/php.tags `pwd` 2>/dev/null &"
+"TODO この辺りはもっと綺麗にできると思う
+"TODO 環境を増やすと同じタグが複数 .tags ファイルに追加されてしまう。環境で分けるべきか。
 
 "--------------------------------------------------
 " コピーなど
@@ -323,7 +331,8 @@ function! RTrim()
     call setpos('.', s:cursor)
 endfunction
 
-autocmd BufWritePre *.rb,*.js call RTrim()
+"autocmd BufWritePre *.rb,*.js call RTrim()
+autocmd BufWritePre *.rb call RTrim()
 
 
 "TODO: そのうちやる
