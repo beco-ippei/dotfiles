@@ -83,7 +83,8 @@ endif
 "NeoBundleFetch 'Shougo/neobundle.vim'
 " originalrepos on github
 NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimproc' ", { build : { mac : make -f make_mac.mak, unix : make -f make_unix.mak, }, }
+NeoBundle 'Shougo/vimproc', { 'build' :
+    \ { 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, }
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/unite.vim'
@@ -98,8 +99,9 @@ NeoBundle 'szw/vim-tags'
 "TODO うまく入ってない模様
 
 " for ruby development
-NeoBundle 'ruby.vim'
+NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'rails.vim'
+NeoBundle 'rspec.vim'
 
 " Brief help
 " :NeoBundleList          - list configured bundles
@@ -351,13 +353,13 @@ let ruby_space_errors=1
 "let g:rubycomplete_classes_in_global = 1
 "let g:rubycomplete_rails = 1
 autocmd FileType perl,rb,php,html,erl set cindent
-autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
-"autocmd FileType ruby,eruby set omnifunc=syntaxcomplete#Complete
-autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
-autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
-autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+"autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
+""autocmd FileType ruby,eruby set omnifunc=syntaxcomplete#Complete
+"autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+"autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+"autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+"autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+"autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 
 "------------------------------------
 " rails.vim
@@ -391,12 +393,12 @@ function! SetUpRailsSetting()
 "  nmap <buffer><Space>c :Rgen contoller<Space>
 "  nmap <buffer><Space>s :Rgen scaffold<Space>
   nmap <buffer><Space>p :Rpreview<CR>
-  au FileType ruby,eruby,ruby.rspec let g:neocomplcache_dictionary_filetype_lists = {
-        \'ruby' : $HOME.'/.vim/dict/rails.dict',
-        \'eruby' : $HOME.'/.vim/dict/rails.dict'
-        \}
-  setl dict+=~/.vim/dict/rails.dict
-  setl dict+=~/.vim/dict/ruby.dict
+  "  au FileType ruby,eruby,ruby.rspec let g:neocomplcache_dictionary_filetype_lists = {
+  "        \'ruby' : $HOME.'/.vim/dict/rails.dict',
+  "        \'eruby' : $HOME.'/.vim/dict/rails.dict'
+  "        \}
+  "  setl dict+=~/.vim/dict/rails.dict
+  "  setl dict+=~/.vim/dict/ruby.dict
 endfunction
 autocmd User Rails call SetUpRailsSetting()
 "}}}
