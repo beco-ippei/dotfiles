@@ -184,6 +184,8 @@ nnoremap <silent> ,irb :VimShellInteractive irb<CR>
 " QuickRun
 "--------------------------------------------------
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+let g:quickrun_config = {}
+let g:quickrun_config['javascript'] = {'command': 'node'}
 
 "--------------------------------------------------
 " ctags
