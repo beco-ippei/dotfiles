@@ -6,8 +6,8 @@ set nocompatible
 set fileformats=unix,dos,mac
 set vb t_vb=
 set backspace=indent,eol,start
-"" OSのクリップボードを使用する
-"set clipboard+=unnamed
+" OSのクリップボードを使用する
+set clipboard+=unnamed
 ""ヤンクした文字は、システムのクリップボードに入れる"
 "set clipboard=unnamed
 " Mac ClipBoard
@@ -92,14 +92,26 @@ NeoBundle 'quickrun.vim'
 NeoBundle 'Shougo/neocomplcache'
 "NeoBundle 'project.vim'
 
+NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'scrooloose/syntastic'
-NeoBundle 'szw/vim-tags'
+"NeoBundle 'szw/vim-tags'
+NeoBundle 'taglist.vim'
 "NeoBundle 'kien/ctrlp.vim'
 "TODO うまく入ってない模様
+NeoBundle 'osyo-manga/vim-over'
 
 " for ruby development
 NeoBundle 'ruby.vim'
 NeoBundle 'rails.vim'
+NeoBundle 'rspec.vim'
+NeoBundle 'taichouchou2/neorspec.vim', {
+  \ 'depends' : ['tpope/vim-rails', 'tpope/vim-dispatch'],
+  \ 'autoload' : {
+  \   'commands' : ['RSpec', 'RSpecAll', 'RSpecCurrent', 'RSpecNearest', 'RSpecRetry']
+  \ }}
+
+" for php development
+NeoBundle 'php.vim'
 
 " Brief help
 " :NeoBundleList          - list configured bundles
@@ -190,10 +202,21 @@ nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() 
 nnoremap <C-]> g<C-]>
 "
 " filetype で切り替えるべき
-au FileType php set tags+=$HOME/.tags/php.tags
-au FileType php let g:vim_tags_project_tags_command = "ctags --languages=php -f ~/.tags/php.tags `pwd` 2>/dev/null &"
+"au FileType php set tags+=$HOME/.tags/php.tags
+"au FileType php let g:vim_tags_project_tags_command = "ctags --languages=php -f ~/.tags/php.tags `pwd` 2>/dev/null &"
+au FileType php let g:vim_tags_project_tags_command = "ctags --languages=php `pwd` 2>/dev/null &"
 "TODO この辺りはもっと綺麗にできると思う
 "TODO 環境を増やすと同じタグが複数 .tags ファイルに追加されてしまう。環境で分けるべきか。
+
+"--------------------------------------------------
+" over.vim
+"--------------------------------------------------
+" over.vimの起動
+nnoremap <silent> ,m :OverCommandLine<CR>
+" カーソル下の単語をハイライト付きで置換
+nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+" コピーした文字列をハイライト付きで置換
+nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
 
 "--------------------------------------------------
 " コピーなど
@@ -272,6 +295,24 @@ set cindent
 au FileType php setl sw=4 sts=4 ts=4
 
 "--------------------------------------------------
+" vim-indent-guides
+"--------------------------------------------------
+" indent-guides を有効にする
+"let g:indent_guides_enable_on_vim_startup=1
+" 2インデント目からガイドする
+let g:indent_guides_start_level = 2
+" 自動カラーを無効にして手動で設定する
+let g:indent_guides_auto_colors = 0
+"hi IndentGuidesOdd  ctermbg=gray
+hi IndentGuidesEven ctermbg=darkgray
+" ガイドの幅
+let g:indent_guides_guide_size = 1
+" ハイライト色の変化の幅 (Terminal では未サポート)
+"let g:indent_guides_color_change_percent = 20
+" ガイド幅をインデント幅に合わせる
+let g:indent_guides_guide_size = &tabstop
+
+"--------------------------------------------------
 " 国際化関係
 "--------------------------------------------------
 set encoding=utf-8
@@ -346,18 +387,19 @@ autocmd BufWritePre *.rb call RTrim()
 let ruby_space_errors=1
 "compiler ruby
 
+"TODO: neocom を使う？
 "Rubyのオムニ補完を設定(ft-ruby-omni)
 "let g:rubycomplete_buffer_loading = 1
 "let g:rubycomplete_classes_in_global = 1
 "let g:rubycomplete_rails = 1
-autocmd FileType perl,rb,php,html,erl set cindent
-autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
-"autocmd FileType ruby,eruby set omnifunc=syntaxcomplete#Complete
-autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
-autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
-autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+"autocmd FileType perl,rb,php,html,erl set cindent
+"autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
+""autocmd FileType ruby,eruby set omnifunc=syntaxcomplete#Complete
+"autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+"autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+"autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+"autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+"autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 
 "------------------------------------
 " rails.vim
@@ -401,11 +443,12 @@ endfunction
 autocmd User Rails call SetUpRailsSetting()
 "}}}
 
-""----------------------------------------------------
-"" RSpec関連
-""----------------------------------------------------
-"let g:quickrun_config = {}
-"let g:quickrun_config['ruby.rspec'] = {'command': 'spec'}
+"----------------------------------------------------
+" RSpec関連
+"----------------------------------------------------
+"au BufNewFile,BufRead *_spec.rb setf 'ruby.rspec'
+let g:quickrun_config = {}
+let g:quickrun_config['ruby.rspec'] = {'command': 'spec'}
 
 "TODO: 以下は多分残骸
 " rails.vim
