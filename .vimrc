@@ -83,7 +83,8 @@ endif
 "NeoBundleFetch 'Shougo/neobundle.vim'
 " originalrepos on github
 NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimproc' ", { build : { mac : make -f make_mac.mak, unix : make -f make_unix.mak, }, }
+NeoBundle 'Shougo/vimproc', { 'build' :
+    \ { 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, }
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/unite.vim'
@@ -101,7 +102,7 @@ NeoBundle 'taglist.vim'
 NeoBundle 'osyo-manga/vim-over'
 
 " for ruby development
-NeoBundle 'ruby.vim'
+NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'rails.vim'
 NeoBundle 'rspec.vim'
 NeoBundle 'taichouchou2/neorspec.vim', {
@@ -194,6 +195,8 @@ nnoremap <silent> ,irb :VimShellInteractive irb<CR>
 " QuickRun
 "--------------------------------------------------
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+let g:quickrun_config = {}
+let g:quickrun_config['javascript'] = {'command': 'node'}
 
 "--------------------------------------------------
 " ctags
@@ -433,12 +436,12 @@ function! SetUpRailsSetting()
 "  nmap <buffer><Space>c :Rgen contoller<Space>
 "  nmap <buffer><Space>s :Rgen scaffold<Space>
   nmap <buffer><Space>p :Rpreview<CR>
-  au FileType ruby,eruby,ruby.rspec let g:neocomplcache_dictionary_filetype_lists = {
-        \'ruby' : $HOME.'/.vim/dict/rails.dict',
-        \'eruby' : $HOME.'/.vim/dict/rails.dict'
-        \}
-  setl dict+=~/.vim/dict/rails.dict
-  setl dict+=~/.vim/dict/ruby.dict
+  "  au FileType ruby,eruby,ruby.rspec let g:neocomplcache_dictionary_filetype_lists = {
+  "        \'ruby' : $HOME.'/.vim/dict/rails.dict',
+  "        \'eruby' : $HOME.'/.vim/dict/rails.dict'
+  "        \}
+  "  setl dict+=~/.vim/dict/rails.dict
+  "  setl dict+=~/.vim/dict/ruby.dict
 endfunction
 autocmd User Rails call SetUpRailsSetting()
 "}}}
