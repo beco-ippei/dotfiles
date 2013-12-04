@@ -103,6 +103,15 @@ NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'rails.vim'
 NeoBundle 'rspec.vim'
 
+augroup html
+  NeoBundle 'html5.vim'
+augroup END
+
+augroup javascript
+  NeoBundle 'pangloss/vim-javascript'
+  NeoBundle 'JavaScript-syntax'
+augroup END
+
 " Brief help
 " :NeoBundleList          - list configured bundles
 " :NeoBundleInstall(!)    - install(update) bundles
@@ -186,6 +195,7 @@ nnoremap <silent> ,irb :VimShellInteractive irb<CR>
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 let g:quickrun_config = {}
 let g:quickrun_config['javascript'] = {'command': 'node'}
+let g:quickrun_config['rspec'] = {'command': 'bundle exec rspec'}
 
 "--------------------------------------------------
 " ctags
@@ -339,6 +349,13 @@ endfunction
 autocmd BufWritePre *.rb call RTrim()
 
 
+"------
+" javascript
+"-------
+augroup javascript
+  "TODO: any setting
+augroup END
+
 "TODO: そのうちやる
 "----------------------------------------------------
 " vim-rubyの設定
@@ -347,7 +364,7 @@ autocmd BufWritePre *.rb call RTrim()
 "imap <C-Space> <C-x><C-o>
 "imap <c-Space> <c-x><c-o>
 
-let ruby_space_errors=1
+"let ruby_space_errors=1
 "compiler ruby
 
 "Rubyのオムニ補完を設定(ft-ruby-omni)
