@@ -91,7 +91,11 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'quickrun.vim'
 
 NeoBundle 'Shougo/neocomplcache'
-"NeoBundle 'project.vim'
+NeoBundle 'taichouchou2/neorspec.vim', {
+  \ 'depends' : ['tpope/vim-rails', 'tpope/vim-dispatch'],
+  \ 'autoload' : {
+  \   'commands' : ['RSpec', 'RSpecAll', 'RSpecCurrent', 'RSpecNearest', 'RSpecRetry']
+  \ }}
 
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'scrooloose/syntastic'
@@ -105,11 +109,8 @@ NeoBundle 'osyo-manga/vim-over'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'rails.vim'
 NeoBundle 'rspec.vim'
-NeoBundle 'taichouchou2/neorspec.vim', {
-  \ 'depends' : ['tpope/vim-rails', 'tpope/vim-dispatch'],
-  \ 'autoload' : {
-  \   'commands' : ['RSpec', 'RSpecAll', 'RSpecCurrent', 'RSpecNearest', 'RSpecRetry']
-  \ }}
+
+"NeoBundle 'project.vim'
 
 " for php development
 NeoBundle 'php.vim'
@@ -122,6 +123,9 @@ augroup javascript
   NeoBundle 'pangloss/vim-javascript'
   NeoBundle 'JavaScript-syntax'
 augroup END
+
+NeoBundle 'nginx.vim'
+au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/* if &ft == '' | setfiletype nginx | endif
 
 " Brief help
 " :NeoBundleList          - list configured bundles
