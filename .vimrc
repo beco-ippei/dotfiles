@@ -346,6 +346,12 @@ set fencs=utf-8,iso-2022-jp,euc-jp,cp932
 "縦方向移動支援
 nnoremap <c-j> 5j
 nnoremap <c-k> 5k
+au FileType help nnoremap <c-j> <Nop>
+au FileType help nnoremap <c-k> <Nop>
+
+"インデント時の再選択状態
+vnoremap < <gv
+vnoremap > >gv
 
 "--------------------------------------------------
 " カーソル行のハイライト
