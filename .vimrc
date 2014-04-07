@@ -91,7 +91,11 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'quickrun.vim'
 
 NeoBundle 'Shougo/neocomplcache'
-"NeoBundle 'project.vim'
+NeoBundle 'taichouchou2/neorspec.vim', {
+  \ 'depends' : ['tpope/vim-rails', 'tpope/vim-dispatch'],
+  \ 'autoload' : {
+  \   'commands' : ['RSpec', 'RSpecAll', 'RSpecCurrent', 'RSpecNearest', 'RSpecRetry']
+  \ }}
 
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'scrooloose/syntastic'
@@ -119,11 +123,11 @@ let g:ruby_heredoc_syntax_filetypes = {
   \ "html" : { "start" : "HTML", },
   \ }
 
+"NeoBundle 'project.vim'
+NeoBundle 'svn.vim'
 
 " for php development
 NeoBundle 'php.vim'
-
-NeoBundle 'svn.vim'
 
 " for redmine
 NeoBundle 'mattn/webapi-vim'
@@ -142,6 +146,17 @@ let g:calendar_google_calendar = 1
 "let g:calendar_google_task = 1
 let g:calendar_frame = 'default'
 
+augroup html
+  NeoBundle 'html5.vim'
+augroup END
+
+augroup javascript
+  NeoBundle 'pangloss/vim-javascript'
+  NeoBundle 'JavaScript-syntax'
+augroup END
+
+NeoBundle 'nginx.vim'
+au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/* if &ft == '' | setfiletype nginx | endif
 
 " Brief help
 " :NeoBundleList          - list configured bundles
@@ -226,6 +241,7 @@ nnoremap <silent> ,irb :VimShellInteractive irb<CR>
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 let g:quickrun_config = {}
 let g:quickrun_config['javascript'] = {'command': 'node'}
+let g:quickrun_config['rspec'] = {'command': 'bundle exec rspec'}
 
 "--------------------------------------------------
 " ctags
@@ -372,6 +388,12 @@ set fencs=utf-8,iso-2022-jp,euc-jp,cp932
 "縦方向移動支援
 nnoremap <c-j> 5j
 nnoremap <c-k> 5k
+au FileType help nnoremap <c-j> <Nop>
+au FileType help nnoremap <c-k> <Nop>
+
+"インデント時の再選択状態
+vnoremap < <gv
+vnoremap > >gv
 
 "--------------------------------------------------
 " カーソル行のハイライト
@@ -418,12 +440,17 @@ endfunction
 "autocmd BufWritePre *.rb,*.js call RTrim()
 autocmd BufWritePre *.rb call RTrim()
 
-
 "----------------------------------------------------
 " php-debug 設定
 "----------------------------------------------------
 nnoremap ,d iecho sprintf("debug ---------------- %s:%d <br>\n", __file__, __line__);
 
+"------
+" javascript
+"-------
+augroup javascript
+  "TODO: any setting
+augroup END
 
 "TODO: そのうちやる
 "----------------------------------------------------
@@ -433,7 +460,7 @@ nnoremap ,d iecho sprintf("debug ---------------- %s:%d <br>\n", __file__, __lin
 "imap <C-Space> <C-x><C-o>
 "imap <c-Space> <c-x><c-o>
 
-let ruby_space_errors=1
+"let ruby_space_errors=1
 "compiler ruby
 
 "TODO: neocom を使う？

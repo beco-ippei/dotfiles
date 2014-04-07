@@ -1,4 +1,5 @@
-alias aws-dev='ssh -i ~/.ssh/beco-ubuntu.pem ippei@54.248.76.36'
+export GOROOT=/usr/local/share/go
+export PATH="$GOROOT/bin:$PATH"
 
 #alias php_ctags="ctags --languages=php -f ~/.tags/php.tags `pwd`"
 alias php_ctags="ctags -R --languages=php -f ~/.tags/php.tags 2>/dev/null"

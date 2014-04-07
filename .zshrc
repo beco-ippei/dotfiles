@@ -38,7 +38,7 @@ ZSH_THEME="ippei"
 plugins=(git rbenv rails ruby svn php)
 
 # Customize to your needs...
-export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$PATH
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 source $ZSH/oh-my-zsh.sh
 source $HOME/.zsh/ruby.zsh
