@@ -4,6 +4,7 @@
 [alias]
   ll = log --decorate --oneline --graph
   s = status
+  ls-ignore = ls-files -v | grep -e '^[^H]'
 
 [user]
   name = beco-ippei
