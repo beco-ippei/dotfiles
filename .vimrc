@@ -97,6 +97,8 @@ NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'scrooloose/syntastic'
 "NeoBundle 'szw/vim-tags'
 NeoBundle 'taglist.vim'
+NeoBundle 'tagexplorer.vim'
+
 "NeoBundle 'kien/ctrlp.vim'
 "TODO うまく入ってない模様
 NeoBundle 'osyo-manga/vim-over'
@@ -120,6 +122,8 @@ let g:ruby_heredoc_syntax_filetypes = {
 
 " for php development
 NeoBundle 'php.vim'
+
+NeoBundle 'svn.vim'
 
 " for redmine
 NeoBundle 'mattn/webapi-vim'
@@ -235,6 +239,7 @@ nnoremap <C-]> g<C-]>
 "au FileType php let g:vim_tags_project_tags_command = "ctags --languages=php `pwd` 2>/dev/null &"
 "TODO この辺りはもっと綺麗にできると思う
 "TODO 環境を増やすと同じタグが複数 .tags ファイルに追加されてしまう。環境で分けるべきか。
+"set tags=tags
 
 "--------------------------------------------------
 " over.vim
@@ -412,6 +417,12 @@ endfunction
 
 "autocmd BufWritePre *.rb,*.js call RTrim()
 autocmd BufWritePre *.rb call RTrim()
+
+
+"----------------------------------------------------
+" php-debug 設定
+"----------------------------------------------------
+nnoremap ,d iecho sprintf("debug ---------------- %s:%d <br>\n", __file__, __line__);
 
 
 "TODO: そのうちやる
