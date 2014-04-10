@@ -3,6 +3,7 @@ export PATH="$GOROOT/bin:$PATH"
 
 
 export PAGER=less
+export EDITOR=vim
 
 #alias php_ctags="ctags --languages=php -f ~/.tags/php.tags `pwd`"
 alias php_ctags="ctags -R --languages=php -f ~/.tags/php.tags 2>/dev/null"

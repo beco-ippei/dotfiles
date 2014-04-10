@@ -88,7 +88,7 @@ NeoBundle 'Shougo/vimproc', { 'build' :
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'quickrun.vim'
+NeoBundle 'Shougo/neomru.vim', { 'depends' : 'Shougo/unite.vim' }
 
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'taichouchou2/neorspec.vim', {
@@ -96,6 +96,8 @@ NeoBundle 'taichouchou2/neorspec.vim', {
   \ 'autoload' : {
   \   'commands' : ['RSpec', 'RSpecAll', 'RSpecCurrent', 'RSpecNearest', 'RSpecRetry']
   \ }}
+
+NeoBundle 'quickrun.vim'
 
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'scrooloose/syntastic'
@@ -173,6 +175,13 @@ if neobundle#exists_not_installed_bundles()
   echomsg 'Please execute ":NeoBundleInstall" command.'
   "finish
 endif
+
+
+"--------------------------------------------------
+" unite.vim and other
+"--------------------------------------------------
+let g:neomru#file_mru_path=expand('~/.vim/etc/neomru/file')
+let g:neomru#directory_mru_path=expand('~/.vim/etc/neomru/direcroty')
 
 
 "--------------------------------------------------
