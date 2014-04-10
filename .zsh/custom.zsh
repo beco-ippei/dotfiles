@@ -10,6 +10,19 @@ alias swap='~/tools/bin/swap.sh'
 alias iphp='~/tools/bin/iphp'
 alias l='ls -lA1'
 
+alias tmuxs='
+tmux rename-window zsh
+tmux split-window -h
+tmux split-window -v -t zsh.0
+'
+#!/bin/sh
+# 
+# tmux rename-window zsh #zshの部分はなんでもいい
+# # tmux new-window -n zsh #Windowを立ちあげて分割する場合はこっち
+#  
+#  tmux split-window -h
+#  tmux split-window -v -t zsh.0
+
 
 # コマンド履歴検索
 autoload history-search-end

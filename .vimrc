@@ -80,7 +80,7 @@ if has('vim_starting')
   call neobundle#rc(expand('~/.vim/bundle/'))
 endif
 " Let NeoBundle manage NeoBundle
-"NeoBundleFetch 'Shougo/neobundle.vim'
+NeoBundleFetch 'Shougo/neobundle.vim'
 " originalrepos on github
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc', { 'build' :
@@ -101,6 +101,8 @@ NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'scrooloose/syntastic'
 "NeoBundle 'szw/vim-tags'
 NeoBundle 'taglist.vim'
+NeoBundle 'tagexplorer.vim'
+
 "NeoBundle 'kien/ctrlp.vim'
 "TODO うまく入ってない模様
 NeoBundle 'osyo-manga/vim-over'
@@ -109,11 +111,40 @@ NeoBundle 'osyo-manga/vim-over'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'rails.vim'
 NeoBundle 'rspec.vim'
+NeoBundle 'taichouchou2/neorspec.vim', {
+  \ 'depends' : ['tpope/vim-rails', 'tpope/vim-dispatch'],
+  \ 'autoload' : {
+  \   'commands' : ['RSpec', 'RSpecAll', 'RSpecCurrent', 'RSpecNearest', 'RSpecRetry']
+  \ }}
+NeoBundle 'joker1007/vim-markdown-quote-syntax'
+" Add syntax rule
+let g:ruby_heredoc_syntax_filetypes = {
+  \ "xml" : { "start" : "XML", },
+  \ "html" : { "start" : "HTML", },
+  \ }
 
 "NeoBundle 'project.vim'
+NeoBundle 'svn.vim'
 
 " for php development
 NeoBundle 'php.vim'
+
+" for redmine
+NeoBundle 'mattn/webapi-vim'
+NeoBundle 'kana/vim-metarw'
+NeoBundle 'mattn/vim-metarw-redmine'
+NeoBundle 'timcharper/textile.vim'
+NeoBundle 'tpope/vim-markdown'
+
+"NeoBundle 'tyru/open-browser.vim'
+"NeoBundle 'basyura/unite-yarm'
+NeoBundle 'basyura/rmine.vim'
+
+NeoBundle 'itchyny/calendar.vim'
+
+let g:calendar_google_calendar = 1
+"let g:calendar_google_task = 1
+let g:calendar_frame = 'default'
 
 augroup html
   NeoBundle 'html5.vim'
@@ -221,9 +252,10 @@ nnoremap <C-]> g<C-]>
 " filetype で切り替えるべき
 "au FileType php set tags+=$HOME/.tags/php.tags
 "au FileType php let g:vim_tags_project_tags_command = "ctags --languages=php -f ~/.tags/php.tags `pwd` 2>/dev/null &"
-au FileType php let g:vim_tags_project_tags_command = "ctags --languages=php `pwd` 2>/dev/null &"
+"au FileType php let g:vim_tags_project_tags_command = "ctags --languages=php `pwd` 2>/dev/null &"
 "TODO この辺りはもっと綺麗にできると思う
 "TODO 環境を増やすと同じタグが複数 .tags ファイルに追加されてしまう。環境で分けるべきか。
+"set tags=tags
 
 "--------------------------------------------------
 " over.vim
@@ -234,6 +266,16 @@ nnoremap <silent> ,m :OverCommandLine<CR>
 nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 " コピーした文字列をハイライト付きで置換
 nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
+
+"--------------------------------------------------
+" vim-metarw-redmine
+"--------------------------------------------------
+let g:metarw_redmine_server = 'https://m2.d.yumemi.jp/redmine/'
+let g:metarw_redmine_apikey = '5f0805ce71c986e1f5ecea126b94b4c5f60c3f12'
+let g:rmine_server_url = 'https://m2.d.yumemi.jp/redmine/'
+let g:rmine_access_key = '5f0805ce71c986e1f5ecea126b94b4c5f60c3f12'
+"let g:unite_yarm_server_url = 'https://m2.d.yumemi.jp/redmine/'
+"let g:unite_yarm_access_key = '5f0805ce71c986e1f5ecea126b94b4c5f60c3f12'
 
 "--------------------------------------------------
 " コピーなど
@@ -398,6 +440,10 @@ endfunction
 "autocmd BufWritePre *.rb,*.js call RTrim()
 autocmd BufWritePre *.rb call RTrim()
 
+"----------------------------------------------------
+" php-debug 設定
+"----------------------------------------------------
+nnoremap ,d iecho sprintf("debug ---------------- %s:%d <br>\n", __file__, __line__);
 
 "------
 " javascript
