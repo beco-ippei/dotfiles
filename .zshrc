@@ -47,3 +47,6 @@ source $HOME/.zsh/custom.zsh
 if [ -f $HOME/.zsh/local.zsh ]; then
   source $HOME/.zsh/local.zsh
 fi
+
+export PATH=`ruby -e "puts '${PATH}'.split(':').uniq.join(':')"`
+

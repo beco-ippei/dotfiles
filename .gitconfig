@@ -11,3 +11,4 @@
   email = beco.ippei@gmail.com
 [core]
   excludesfile = /home/ippei/.gitignore_global
+  editor = /usr/bin/vim
