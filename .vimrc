@@ -7,7 +7,8 @@ set fileformats=unix,dos,mac
 set vb t_vb=
 set backspace=indent,eol,start
 " OSのクリップボードを使用する
-set clipboard+=unnamed
+"set clipboard+=unnamed
+"set clipboard=unnamedplus
 ""ヤンクした文字は、システムのクリップボードに入れる"
 "set clipboard=unnamed
 " Mac ClipBoard
@@ -15,6 +16,101 @@ set clipboard+=unnamed
 "map <silent> sp <esc>o<esc>v:!pbpaste<CR>
 vmap ,y "*y
 nmap ,p "*p
+
+"--------------------------------------------------
+" プラグイン (NeoBundle のみ先に)
+"--------------------------------------------------
+
+" if NeoBundle not installed, exec below commands
+"$ mkdir -p ~/.vim/bundle
+"$ git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
+if has('vim_starting')
+  set runtimepath+=~/.vim/bundle/neobundle.vim
+  call neobundle#rc(expand('~/.vim/bundle/'))
+endif
+" Let NeoBundle manage NeoBundle
+NeoBundleFetch 'Shougo/neobundle.vim'
+" originalrepos on github
+NeoBundle 'Shougo/neobundle.vim'
+
+"--------------------------------------------------
+" コピーなど
+"--------------------------------------------------
+" Ctrl-P で何度もPasteしたい
+vnoremap <silent> <C-p> "0p
+
+"--------------------------------------------------
+" バックアップ関係
+"--------------------------------------------------
+set nobackup
+set writebackup
+set noswapfile
+
+"--------------------------------------------------
+" 検索関係
+"--------------------------------------------------
+set history=200
+set ignorecase
+set nowrapscan
+set incsearch
+
+"--------------------------------------------------
+" ファイルタイプ
+"--------------------------------------------------
+filetype on
+filetype indent on
+filetype plugin on
+filetype plugin indent on     " required!
+
+au BufNewFile,BufRead *.logic setf php
+
+"--------------------------------------------------
+" 表示関係
+"--------------------------------------------------
+set title
+set number
+set showcmd
+set laststatus=2
+set showmatch
+set matchtime=2
+"set ruler
+syntax on
+set hlsearch
+highlight Comment ctermfg=DarkCyan
+set wildmenu
+set wildmode=list:longest,full
+
+set scrolloff=5
+set textwidth=0
+set wrap
+"ホワイトスペース類を表示する
+set list
+set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+
+set statusline=%F%m%r%h%w\%=[FORMAT=%{&ff}]\[TYPE=%Y]\%{'[ENC='.(&fenc!=''?&fenc:&enc).']'}\[POS=%05l/%05L]
+
+"記号の見た目調整
+set ambiwidth=double
+
+set foldmethod=marker
+
+"--------------------------------------------------
+" 色の調整
+"--------------------------------------------------
+hi Directory term=bold ctermfg=brown
+
+"--------------------------------------------------
+" インデント
+"--------------------------------------------------
+set autoindent
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set expandtab
+set smartindent
+set cindent
+" for php
+au FileType php setl sw=4 sts=4 ts=4
 
 
 "--------------------------------------------------
@@ -70,25 +166,27 @@ au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
 "--------------------------------------------------
 " プラグイン
 "--------------------------------------------------
-filetype off    "TODO what does this?
+"filetype off    "TODO what does this?
 
-" if NeoBundle not installed, exec below commands
-"$ mkdir -p ~/.vim/bundle
-"$ git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
-if has('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim
-  call neobundle#rc(expand('~/.vim/bundle/'))
-endif
-" Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
-" originalrepos on github
-NeoBundle 'Shougo/neobundle.vim'
+"NOTE: NeoBundleは先に実行
+"" if NeoBundle not installed, exec below commands
+""$ mkdir -p ~/.vim/bundle
+""$ git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
+"if has('vim_starting')
+"  set runtimepath+=~/.vim/bundle/neobundle.vim
+"  call neobundle#rc(expand('~/.vim/bundle/'))
+"endif
+"" Let NeoBundle manage NeoBundle
+"NeoBundleFetch 'Shougo/neobundle.vim'
+"" originalrepos on github
+"NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc', { 'build' :
     \ { 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, }
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'quickrun.vim'
+NeoBundle 'Shougo/neosnippet'
 
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'taichouchou2/neorspec.vim', {
@@ -100,22 +198,25 @@ NeoBundle 'taichouchou2/neorspec.vim', {
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'scrooloose/syntastic'
 "NeoBundle 'szw/vim-tags'
-NeoBundle 'taglist.vim'
-NeoBundle 'tagexplorer.vim'
+"NeoBundle 'taglist.vim'
+"NeoBundle 'tagexplorer.vim'
 
 "NeoBundle 'kien/ctrlp.vim'
 "TODO うまく入ってない模様
-NeoBundle 'osyo-manga/vim-over'
+"NeoBundle 'osyo-manga/vim-over'
 
 " for ruby development
-NeoBundle 'vim-ruby/vim-ruby'
-NeoBundle 'rails.vim'
-NeoBundle 'rspec.vim'
-NeoBundle 'taichouchou2/neorspec.vim', {
-  \ 'depends' : ['tpope/vim-rails', 'tpope/vim-dispatch'],
-  \ 'autoload' : {
-  \   'commands' : ['RSpec', 'RSpecAll', 'RSpecCurrent', 'RSpecNearest', 'RSpecRetry']
-  \ }}
+augroup ruby
+  NeoBundle 'vim-ruby/vim-ruby'
+  NeoBundle 'rails.vim'
+  NeoBundle 'rspec.vim'
+  NeoBundle 'taichouchou2/neorspec.vim', {
+    \ 'depends' : ['tpope/vim-rails', 'tpope/vim-dispatch'],
+    \ 'autoload' : {
+    \   'commands' : ['RSpec', 'RSpecAll', 'RSpecCurrent', 'RSpecNearest', 'RSpecRetry']
+    \ }}
+augroup END
+
 NeoBundle 'joker1007/vim-markdown-quote-syntax'
 " Add syntax rule
 let g:ruby_heredoc_syntax_filetypes = {
@@ -128,6 +229,7 @@ NeoBundle 'svn.vim'
 
 " for php development
 NeoBundle 'php.vim'
+au FileType php :set dictionary=~/.vim/dict/php.dict
 
 " for redmine
 NeoBundle 'mattn/webapi-vim'
@@ -155,8 +257,17 @@ augroup javascript
   NeoBundle 'JavaScript-syntax'
 augroup END
 
-NeoBundle 'nginx.vim'
 au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/* if &ft == '' | setfiletype nginx | endif
+augroup nginx
+  NeoBundle 'nginx.vim'
+augroup END
+
+au BufRead,BufNewFile *.coffee  set filetype=coffee
+augroup coffee
+  NeoBundle 'kchmck/vim-coffee-script'
+  setlocal sw=2 sts=2 ts=2 et
+augroup END
+
 
 " Brief help
 " :NeoBundleList          - list configured bundles
@@ -181,7 +292,6 @@ endif
 " set: dictionary= で辞書ファイルを指定
 " #php -r '$f=get_defined_functions();echo join("\n",$f["internal"]);'|sort > ~/.vim/dict/php.dict
 " or http://bit.ly/WlfSib   ... or nothing to do?
-au FileType php :set dictionary=~/.vim/dict/php.dict
 
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_camel_case_completion = 1
@@ -214,18 +324,33 @@ let g:neocomplcache_member_prefix_patterns['php'] = '->\|::'
 
 
 "--------------------------------------------------
+" neosnippet
+"--------------------------------------------------
+" Plugin key-mappings.  " <C-k>でsnippetの展開
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+" snippet ファイルの場所
+let s:my_snippets = '~/.vim/snippets/'
+let g:neosnippet#snippets_directory = s:my_snippets
+
+"--------------------------------------------------
 " syntastic
 "--------------------------------------------------
-let g:syntastic_check_on_open = 1
+au FileType php :let g:syntastic_check_on_open = 1
 let g:syntastic_enable_signs = 1
 let g:syntastic_echo_current_error = 1
 let g:syntastic_auto_loc_list = 2
 let g:syntastic_enable_highlighting = 1
+" phpcs 重いので
+"au FileType php :let g:syntastic_enable_highlighting = 0
+let g:syntastic_enable_highlighting = 0
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 let g:syntastic_php_php_args = '-l'
+"let g:syntastic_php_phpcs_args = '--report=csv --standard=CakePHP'
+"let g:syntastic_php_phpcs_args = '--standard=Zend'
 
 "--------------------------------------------------
 " VimShell
@@ -260,12 +385,12 @@ nnoremap <C-]> g<C-]>
 "--------------------------------------------------
 " over.vim
 "--------------------------------------------------
-" over.vimの起動
-nnoremap <silent> ,m :OverCommandLine<CR>
-" カーソル下の単語をハイライト付きで置換
-nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
-" コピーした文字列をハイライト付きで置換
-nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
+"" over.vimの起動
+"nnoremap <silent> ,m :OverCommandLine<CR>
+"" カーソル下の単語をハイライト付きで置換
+"nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+"" コピーした文字列をハイライト付きで置換
+"nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
 
 "--------------------------------------------------
 " vim-metarw-redmine
@@ -276,82 +401,6 @@ let g:rmine_server_url = 'https://m2.d.yumemi.jp/redmine/'
 let g:rmine_access_key = '5f0805ce71c986e1f5ecea126b94b4c5f60c3f12'
 "let g:unite_yarm_server_url = 'https://m2.d.yumemi.jp/redmine/'
 "let g:unite_yarm_access_key = '5f0805ce71c986e1f5ecea126b94b4c5f60c3f12'
-
-"--------------------------------------------------
-" コピーなど
-"--------------------------------------------------
-" Ctrl-P で何度もPasteしたい
-vnoremap <silent> <C-p> "0p
-
-"--------------------------------------------------
-" バックアップ関係
-"--------------------------------------------------
-set nobackup
-set writebackup
-set noswapfile
-
-"--------------------------------------------------
-" 検索関係
-"--------------------------------------------------
-set history=200
-set ignorecase
-set nowrapscan
-set incsearch
-
-"--------------------------------------------------
-" 表示関係
-"--------------------------------------------------
-set title
-set number
-set showcmd
-set laststatus=2
-set showmatch
-set matchtime=2
-"set ruler
-syntax on
-set hlsearch
-highlight Comment ctermfg=DarkCyan
-set wildmenu
-
-set scrolloff=5
-set textwidth=0
-set wrap
-"ホワイトスペース類を表示する
-set list
-set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
-
-set statusline=%F%m%r%h%w\%=[FORMAT=%{&ff}]\[TYPE=%Y]\%{'[ENC='.(&fenc!=''?&fenc:&enc).']'}\[POS=%05l/%05L]
-
-"記号の見た目調整
-set ambiwidth=double
-
-"--------------------------------------------------
-" 色の調整
-"--------------------------------------------------
-hi Directory term=bold ctermfg=brown
-
-"--------------------------------------------------
-" ファイルタイプ
-"--------------------------------------------------
-filetype on
-filetype indent on
-filetype plugin on
-filetype plugin indent on     " required!
-
-au BufNewFile,BufRead *.logic setf php
-
-"--------------------------------------------------
-" インデント
-"--------------------------------------------------
-set autoindent
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set expandtab
-set smartindent
-set cindent
-" for php
-au FileType php setl sw=4 sts=4 ts=4
 
 "--------------------------------------------------
 " vim-indent-guides
