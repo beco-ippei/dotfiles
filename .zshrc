@@ -48,5 +48,8 @@ if [ -f $HOME/.zsh/local.zsh ]; then
   source $HOME/.zsh/local.zsh
 fi
 
-export PATH=`ruby -e "puts '${PATH}'.split(':').uniq.join(':')"`
+which ruby >/dev/null
+if [ "${?}" = "0" ]; then
+  export PATH=`ruby -e "puts '${PATH}'.split(':').uniq.join(':')"`
+fi
 
