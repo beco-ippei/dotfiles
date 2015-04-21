@@ -142,14 +142,20 @@ NeoBundle 'tpope/vim-markdown'
 "NeoBundle 'basyura/unite-yarm'
 NeoBundle 'basyura/rmine.vim'
 
+NeoBundle 'kchmck/vim-coffee-script'
+
 NeoBundle 'itchyny/calendar.vim'
 
 let g:calendar_google_calendar = 1
 "let g:calendar_google_task = 1
 let g:calendar_frame = 'default'
 
-augroup html
-  NeoBundle 'html5.vim'
+"augroup html
+"  NeoBundle 'html5.vim'
+"augroup END
+augroup css
+  NeoBundle 'hail2u/vim-css3-syntax'
+"  NeoBundle 'JulesWang/css.vim'
 augroup END
 
 augroup javascript
@@ -334,6 +340,8 @@ set statusline=%F%m%r%h%w\%=[FORMAT=%{&ff}]\[TYPE=%Y]\%{'[ENC='.(&fenc!=''?&fenc
 "記号の見た目調整
 set ambiwidth=double
 
+set foldmethod=marker
+
 "--------------------------------------------------
 " 色の調整
 "--------------------------------------------------
@@ -348,6 +356,18 @@ filetype plugin on
 filetype plugin indent on     " required!
 
 au BufNewFile,BufRead *.logic setf php
+
+
+"---------------------------------------------------
+" for coffee-script
+"---------------------------------------------------
+" vimにcoffeeファイルタイプを認識させる
+au BufRead,BufNewFile,BufReadPre *.coffee   set filetype=coffee
+" インデントを設定
+autocmd FileType coffee     setlocal sw=2 sts=2 ts=2 et
+
+"autocmd BufWritePost *.coffee silent CoffeeMake! -cb | cwindow | redraw!
+
 
 "--------------------------------------------------
 " インデント
@@ -489,8 +509,7 @@ augroup END
 "------------------------------------
 " rails.vim
 "------------------------------------
-""{{{
-"有効化
+" 有効化
 let g:rails_some_option = 1
 let g:rails_level = 2
 let g:rails_syntax = 1
@@ -503,47 +522,28 @@ let g:rails_default_file="app/controllers/application.rb"
 let g:rails_devalut_database = 'mysql'
 " let g:rails_ctags_arguments = ''
 
-function! SetUpRailsSetting()
-  nmap <buffer><C-C> <Nop>
-  imap <buffer><C-C> <Nop>
-  map <buffer><C-_><C-C> <Nop>
-
-  nmap <buffer><Space>r :R<CR>
-  nmap <buffer><Space>a :A<CR>
-  nmap <buffer><Space>m :Rmodel<Space>
-  nmap <buffer><Space>c :Rcontroller<Space>
-  nmap <buffer><Space>v :Rview<Space>
-  nmap <buffer><Space>s :Rspec<Space>
-"  nmap <buffer><Space>m :Rgen model<Space>
-"  nmap <buffer><Space>c :Rgen contoller<Space>
-"  nmap <buffer><Space>s :Rgen scaffold<Space>
-  nmap <buffer><Space>p :Rpreview<CR>
-  "  au FileType ruby,eruby,ruby.rspec let g:neocomplcache_dictionary_filetype_lists = {
-  "        \'ruby' : $HOME.'/.vim/dict/rails.dict',
-  "        \'eruby' : $HOME.'/.vim/dict/rails.dict'
-  "        \}
-  "  setl dict+=~/.vim/dict/rails.dict
-  "  setl dict+=~/.vim/dict/ruby.dict
-endfunction
-autocmd User Rails call SetUpRailsSetting()
+"function! SetUpRailsSetting()
+"  nmap <buffer><C-C> <Nop>
+"  imap <buffer><C-C> <Nop>
+"  map <buffer><C-_><C-C> <Nop>
+"
+"  nmap <buffer><Space>r :R<CR>
+"  nmap <buffer><Space>a :A<CR>
+"  nmap <buffer><Space>m :Rmodel<Space>
+"  nmap <buffer><Space>c :Rcontroller<Space>
+"  nmap <buffer><Space>v :Rview<Space>
+"  nmap <buffer><Space>s :Rspec<Space>
+""  nmap <buffer><Space>m :Rgen model<Space>
+""  nmap <buffer><Space>c :Rgen contoller<Space>
+""  nmap <buffer><Space>s :Rgen scaffold<Space>
+"  nmap <buffer><Space>p :Rpreview<CR>
+"  "  au FileType ruby,eruby,ruby.rspec let g:neocomplcache_dictionary_filetype_lists = {
+"  "        \'ruby' : $HOME.'/.vim/dict/rails.dict',
+"  "        \'eruby' : $HOME.'/.vim/dict/rails.dict'
+"  "        \}
+"  "  setl dict+=~/.vim/dict/rails.dict
+"  "  setl dict+=~/.vim/dict/ruby.dict
+"endfunction
+"autocmd User Rails call SetUpRailsSetting()
 "}}}
-
-"----------------------------------------------------
-" RSpec関連
-"----------------------------------------------------
-"au BufNewFile,BufRead *_spec.rb setf 'ruby.rspec'
-let g:quickrun_config = {}
-let g:quickrun_config['ruby.rspec'] = {'command': 'spec'}
-
-"TODO: 以下は多分残骸
-" rails.vim
-"let g:rails_level=4
-"let g:rails_default_file="app/controllers/application.rb"
-"let g:rails_default_database="mysql"
-
-" rubycomplete.vim
-"autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
-"autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
-"autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
-"autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 
