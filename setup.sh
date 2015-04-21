@@ -3,7 +3,7 @@ files=(".gitconfig" ".gitignore_global")
 files+=(".screenrc" ".tmux.conf" ".vimrc" ".vimshrc" ".zshrc")
 files+=(".rspec")
 files+=(".oh-my-zsh/themes/ippei.zsh-theme")
-files+=(".zsh/custom.zsh" ".zsh/dev.zsh" ".zsh/ruby.zsh")
+files+=(".zsh/custom.zsh" ".zsh/dev.zsh" ".zsh/ruby.zsh" ".zsh/go.zsh")
 files+=(".bundler/config")
 
 if [ ! -d "_backup/" ]; then

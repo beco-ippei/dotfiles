@@ -41,12 +41,10 @@ plugins=(git rbenv rails ruby svn php)
 export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 source $ZSH/oh-my-zsh.sh
-source $HOME/.zsh/ruby.zsh
-source $HOME/.zsh/dev.zsh
-source $HOME/.zsh/custom.zsh
-if [ -f $HOME/.zsh/local.zsh ]; then
-  source $HOME/.zsh/local.zsh
-fi
+
+for file in `ls $HOME/.zsh/*.zsh`; do
+  source $file
+done
 
 which ruby >/dev/null
 if [ "${?}" = "0" ]; then
