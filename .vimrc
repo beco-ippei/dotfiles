@@ -3,6 +3,8 @@
 "--------------------------------------------------
 "TODO OS別で設定変えたい
 set nocompatible
+filetype off    "TODO what does this?
+
 set fileformats=unix,dos,mac
 set vb t_vb=
 set backspace=indent,eol,start
@@ -16,281 +18,6 @@ set clipboard+=unnamed
 vmap ,y "*y
 nmap ,p "*p
 
-
-"--------------------------------------------------
-" ファイラー
-"--------------------------------------------------
-" netrwは常にtree view
-let g:netrw_liststyle = 3
-" CVSと.で始まるファイルは表示しない
-let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
-" 'v'でファイルを開くときは右側に開く。(デフォルトが左側なので入れ替え)
-let g:netrw_altv = 1
-" 'o'でファイルを開くときは下側に開く。(デフォルトが上側なので入れ替え)
-let g:netrw_alto = 1
-
-"VimFiler -split -simple -winwidth=35 -no-quit
-let g:vimfiler_as_default_explorer = 1
-"現在開いているバッファのディレクトリを開く
-nnoremap <silent> ,fe :<C-u>VimFilerBufferDir -quit<CR>
-"現在開いているバッファをIDE風に開く
-nnoremap <silent> ,fi :<C-u>VimFilerBufferDir -split -simple -winwidth=35 -no-quit<CR>
-
-" 色の調整
-hi Directory term=bold ctermfg=brown
-
-
-"--------------------------------------------------
-" unite.vim
-"--------------------------------------------------
-" バッファ一覧
-nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
-"ファイル一覧
-nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-" レジスタ一覧
-nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
-" 最近使用したファイル一覧
-nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
-" 常用セット
-nnoremap <silent> ,uu :<C-u>Unite buffer file_mru register<CR>
-" 全部乗せ
-nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
-
-" ウィンドウを分割して開く
-au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-" ウィンドウを縦に分割して開く
-au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-" ESCキーを2回押すと終了する
-au FileType unite nnoremap <silent> <buffer> <ESC><ESC> q
-au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
-
-
-"--------------------------------------------------
-" プラグイン
-"--------------------------------------------------
-filetype off    "TODO what does this?
-
-" if NeoBundle not installed, exec below commands
-"$ mkdir -p ~/.vim/bundle
-"$ git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
-if has('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim
-  call neobundle#begin(expand('~/.vim/bundle/'))
-endif
-" Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
-" originalrepos on github
-NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimproc', { 'build' :
-    \ { 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, }
-NeoBundle 'Shougo/vimshell'
-NeoBundle 'Shougo/vimfiler'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neomru.vim', { 'depends' : 'Shougo/unite.vim' }
-
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'taichouchou2/neorspec.vim', {
-  \ 'depends' : ['tpope/vim-rails', 'tpope/vim-dispatch'],
-  \ 'autoload' : {
-  \   'commands' : ['RSpec', 'RSpecAll', 'RSpecCurrent', 'RSpecNearest', 'RSpecRetry']
-  \ }}
-
-NeoBundle 'quickrun.vim'
-
-NeoBundle 'nathanaelkane/vim-indent-guides'
-NeoBundle 'scrooloose/syntastic'
-"NeoBundle 'szw/vim-tags'
-NeoBundle 'taglist.vim'
-NeoBundle 'tagexplorer.vim'
-
-"NeoBundle 'kien/ctrlp.vim'
-"TODO うまく入ってない模様
-NeoBundle 'osyo-manga/vim-over'
-
-" for ruby development
-NeoBundle 'vim-ruby/vim-ruby'
-NeoBundle 'rails.vim'
-NeoBundle 'rspec.vim'
-NeoBundle 'taichouchou2/neorspec.vim', {
-  \ 'depends' : ['tpope/vim-rails', 'tpope/vim-dispatch'],
-  \ 'autoload' : {
-  \   'commands' : ['RSpec', 'RSpecAll', 'RSpecCurrent', 'RSpecNearest', 'RSpecRetry']
-  \ }}
-NeoBundle 'joker1007/vim-markdown-quote-syntax'
-" Add syntax rule
-let g:ruby_heredoc_syntax_filetypes = {
-  \ "xml" : { "start" : "XML", },
-  \ "html" : { "start" : "HTML", },
-  \ }
-
-"NeoBundle 'project.vim'
-NeoBundle 'svn.vim'
-
-" for php development
-NeoBundle 'php.vim'
-
-" for redmine
-NeoBundle 'mattn/webapi-vim'
-NeoBundle 'kana/vim-metarw'
-NeoBundle 'mattn/vim-metarw-redmine'
-NeoBundle 'timcharper/textile.vim'
-NeoBundle 'tpope/vim-markdown'
-
-"NeoBundle 'tyru/open-browser.vim'
-"NeoBundle 'basyura/unite-yarm'
-NeoBundle 'basyura/rmine.vim'
-
-NeoBundle 'kchmck/vim-coffee-script'
-
-NeoBundle 'itchyny/calendar.vim'
-
-let g:calendar_google_calendar = 1
-"let g:calendar_google_task = 1
-let g:calendar_frame = 'default'
-
-"augroup html
-"  NeoBundle 'html5.vim'
-"augroup END
-augroup css
-  NeoBundle 'hail2u/vim-css3-syntax'
-"  NeoBundle 'JulesWang/css.vim'
-augroup END
-
-augroup javascript
-  NeoBundle 'pangloss/vim-javascript'
-  NeoBundle 'JavaScript-syntax'
-augroup END
-
-NeoBundle 'nginx.vim'
-au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/* if &ft == '' | setfiletype nginx | endif
-
-" Brief help
-" :NeoBundleList          - list configured bundles
-" :NeoBundleInstall(!)    - install(update) bundles
-" :NeoBundleClean(!)      - confirm(or auto-approve) removal of unused bundles
-
-" search plugins from > http://vim-scripts.org/vim/scripts.html
-" or :Unite neobundle/search
-
-" Installation check.
-if neobundle#exists_not_installed_bundles()
-  echomsg 'Not installed bundles : ' .
-    \ string(neobundle#get_not_installed_bundle_names())
-  echomsg 'Please execute ":NeoBundleInstall" command.'
-  "finish
-endif
-
-
-"--------------------------------------------------
-" unite.vim and other
-"--------------------------------------------------
-let g:neomru#file_mru_path=expand('~/.vim/etc/neomru/file')
-let g:neomru#directory_mru_path=expand('~/.vim/etc/neomru/direcroty')
-
-
-"--------------------------------------------------
-" neocomplcache
-"--------------------------------------------------
-" set: dictionary= で辞書ファイルを指定
-" #php -r '$f=get_defined_functions();echo join("\n",$f["internal"]);'|sort > ~/.vim/dict/php.dict
-" or http://bit.ly/WlfSib   ... or nothing to do?
-au FileType php :set dictionary=~/.vim/dict/php.dict
-
-let g:neocomplcache_enable_at_startup = 1
-let g:neocomplcache_enable_camel_case_completion = 1
-let g:neocomplcache_enable_underbar_completion = 1
-let g:neocomplcache_smart_case = 1
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_manual_completion_start_length = 1
-let g:neocomplcache_caching_percent_in_statusline = 1
-let g:neocomplcache_enable_skip_completion = 1
-let g:neocomplcache_skip_input_time = '0.5'
-
-"補完するためのキーワードパターンを指定
-if !exists('g:neocomplcache_keyword_patterns')
-  let g:neocomplcache_keyword_patterns = {}
-endif
-"日本語を補完候補として取得しないようにする
-let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-
-"関数を補完するための区切り文字パターン
-if !exists('g:neocomplcache_delimiter_patterns')
-  let g:neocomplcache_delimiter_patterns = {}
-endif
-let g:neocomplcache_delimiter_patterns['php'] = ['->', '::', '\']
-
-"タグ補完の呼び出しパターン
-if !exists('g:neocomplcache_member_prefix_patterns')
-  let g:neocomplcache_member_prefix_patterns = {}
-endif
-let g:neocomplcache_member_prefix_patterns['php'] = '->\|::'
-
-
-"--------------------------------------------------
-" syntastic
-"--------------------------------------------------
-let g:syntastic_check_on_open = 1
-let g:syntastic_enable_signs = 1
-let g:syntastic_echo_current_error = 1
-let g:syntastic_auto_loc_list = 2
-let g:syntastic_enable_highlighting = 1
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_php_php_args = '-l'
-
-"--------------------------------------------------
-" VimShell
-"--------------------------------------------------
-" ,is: シェルを起動
-nnoremap <silent> ,is :VimShell<CR>
-" ,irb: irbを非同期で起動
-nnoremap <silent> ,irb :VimShellInteractive irb<CR>
-
-"--------------------------------------------------
-" QuickRun
-"--------------------------------------------------
-nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
-let g:quickrun_config = {}
-let g:quickrun_config['javascript'] = {'command': 'node'}
-let g:quickrun_config['rspec'] = {'command': 'bundle exec rspec'}
-
-"--------------------------------------------------
-" ctags
-"--------------------------------------------------
-" tagsジャンプの時に複数ある時は一覧表示
-nnoremap <C-]> g<C-]>
-"
-" filetype で切り替えるべき
-"au FileType php set tags+=$HOME/.tags/php.tags
-"au FileType php let g:vim_tags_project_tags_command = "ctags --languages=php -f ~/.tags/php.tags `pwd` 2>/dev/null &"
-"au FileType php let g:vim_tags_project_tags_command = "ctags --languages=php `pwd` 2>/dev/null &"
-"TODO この辺りはもっと綺麗にできると思う
-"TODO 環境を増やすと同じタグが複数 .tags ファイルに追加されてしまう。環境で分けるべきか。
-"set tags=tags
-
-"--------------------------------------------------
-" over.vim
-"--------------------------------------------------
-" over.vimの起動
-nnoremap <silent> ,m :OverCommandLine<CR>
-" カーソル下の単語をハイライト付きで置換
-nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
-" コピーした文字列をハイライト付きで置換
-nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
-
-"--------------------------------------------------
-" vim-metarw-redmine
-"--------------------------------------------------
-let g:metarw_redmine_server = 'https://m2.d.yumemi.jp/redmine/'
-let g:metarw_redmine_apikey = '5f0805ce71c986e1f5ecea126b94b4c5f60c3f12'
-let g:rmine_server_url = 'https://m2.d.yumemi.jp/redmine/'
-let g:rmine_access_key = '5f0805ce71c986e1f5ecea126b94b4c5f60c3f12'
-"let g:unite_yarm_server_url = 'https://m2.d.yumemi.jp/redmine/'
-"let g:unite_yarm_access_key = '5f0805ce71c986e1f5ecea126b94b4c5f60c3f12'
 
 "--------------------------------------------------
 " コピーなど
@@ -350,24 +77,13 @@ hi Directory term=bold ctermfg=brown
 "--------------------------------------------------
 " ファイルタイプ
 "--------------------------------------------------
-filetype on
-filetype indent on
-filetype plugin on
-filetype plugin indent on     " required!
+"filetype on
+"filetype indent on
+"filetype plugin on
+"filetype plugin indent on     " required!
 
 au BufNewFile,BufRead *.logic setf php
-
-
-"---------------------------------------------------
-" for coffee-script
-"---------------------------------------------------
-" vimにcoffeeファイルタイプを認識させる
-au BufRead,BufNewFile,BufReadPre *.coffee   set filetype=coffee
-" インデントを設定
-autocmd FileType coffee     setlocal sw=2 sts=2 ts=2 et
-
-"autocmd BufWritePost *.coffee silent CoffeeMake! -cb | cwindow | redraw!
-
+au BufNewFile,BufRead *.go setf go
 
 "--------------------------------------------------
 " インデント
@@ -382,23 +98,28 @@ set cindent
 " for php
 au FileType php setl sw=4 sts=4 ts=4
 
+
 "--------------------------------------------------
-" vim-indent-guides
+" ファイラー
 "--------------------------------------------------
-" indent-guides を有効にする
-"let g:indent_guides_enable_on_vim_startup=1
-" 2インデント目からガイドする
-let g:indent_guides_start_level = 2
-" 自動カラーを無効にして手動で設定する
-let g:indent_guides_auto_colors = 0
-"hi IndentGuidesOdd  ctermbg=gray
-hi IndentGuidesEven ctermbg=darkgray
-" ガイドの幅
-let g:indent_guides_guide_size = 1
-" ハイライト色の変化の幅 (Terminal では未サポート)
-"let g:indent_guides_color_change_percent = 20
-" ガイド幅をインデント幅に合わせる
-let g:indent_guides_guide_size = &tabstop
+" netrwは常にtree view
+let g:netrw_liststyle = 3
+" CVSと.で始まるファイルは表示しない
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+" 'v'でファイルを開くときは右側に開く。(デフォルトが左側なので入れ替え)
+let g:netrw_altv = 1
+" 'o'でファイルを開くときは下側に開く。(デフォルトが上側なので入れ替え)
+let g:netrw_alto = 1
+
+"VimFiler -split -simple -winwidth=35 -no-quit
+let g:vimfiler_as_default_explorer = 1
+"現在開いているバッファのディレクトリを開く
+nnoremap <silent> ,fe :<C-u>VimFilerBufferDir -quit<CR>
+"現在開いているバッファをIDE風に開く
+nnoremap <silent> ,fi :<C-u>VimFilerBufferDir -split -simple -winwidth=35 -no-quit<CR>
+
+" 色の調整
+hi Directory term=bold ctermfg=brown
 
 "--------------------------------------------------
 " 国際化関係
@@ -423,6 +144,292 @@ au FileType help nnoremap <c-k> <Nop>
 "インデント時の再選択状態
 vnoremap < <gv
 vnoremap > >gv
+
+
+"--------------------------------------------------
+" unite.vim
+"--------------------------------------------------
+" バッファ一覧
+nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
+"ファイル一覧
+nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+" レジスタ一覧
+nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
+" 最近使用したファイル一覧
+nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
+" 常用セット
+nnoremap <silent> ,uu :<C-u>Unite buffer file_mru register<CR>
+" 全部乗せ
+nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+
+" ウィンドウを分割して開く
+au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+" ウィンドウを縦に分割して開く
+au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+" ESCキーを2回押すと終了する
+au FileType unite nnoremap <silent> <buffer> <ESC><ESC> q
+au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
+
+
+"--------------------------------------------------
+" プラグイン
+"--------------------------------------------------
+"filetype off    "TODO what does this?
+
+" if NeoBundle not installed, exec below commands
+"$ mkdir -p ~/.vim/bundle
+"$ git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
+if has('vim_starting')
+  set runtimepath+=~/.vim/bundle/neobundle.vim
+  call neobundle#begin(expand('~/.vim/bundle/'))
+    " Let NeoBundle manage NeoBundle
+    NeoBundleFetch 'Shougo/neobundle.vim'
+  call neobundle#end()
+endif
+" Let NeoBundle manage NeoBundle
+"NeoBundleFetch 'Shougo/neobundle.vim'
+" originalrepos on github
+NeoBundle 'Shougo/neobundle.vim'
+NeoBundle 'Shougo/vimproc', { 'build' :
+    \ { 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, }
+NeoBundle 'Shougo/vimshell'
+NeoBundle 'Shougo/vimfiler'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neomru.vim', { 'depends' : 'Shougo/unite.vim' }
+
+NeoBundle 'Shougo/neocomplcache'
+
+NeoBundle 'quickrun.vim'
+
+NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'scrooloose/syntastic'
+"NeoBundle 'szw/vim-tags'
+NeoBundle 'taglist.vim'
+NeoBundle 'tagexplorer.vim'
+
+"NeoBundle 'kien/ctrlp.vim'
+"TODO うまく入ってない模様
+NeoBundle 'osyo-manga/vim-over'
+
+" for ruby development
+au FileType ruby NeoBundle 'vim-ruby/vim-ruby'
+au FileType ruby NeoBundle 'rails.vim'
+au FileType ruby NeoBundle 'rspec.vim'
+au FileType ruby NeoBundle 'taichouchou2/neorspec.vim', {
+    \ 'depends' : ['tpope/vim-rails', 'tpope/vim-dispatch'],
+    \ 'autoload' : {
+    \   'commands' : ['RSpec', 'RSpecAll', 'RSpecCurrent', 'RSpecNearest', 'RSpecRetry']
+    \ }}
+
+" Add syntax rule
+au FileType ruby NeoBundle 'joker1007/vim-markdown-quote-syntax'
+au FileType ruby let g:ruby_heredoc_syntax_filetypes = {
+    \ "xml" : { "start" : "XML", },
+    \ "html" : { "start" : "HTML", },
+    \ }
+
+"NeoBundle 'project.vim'
+au FileType svn NeoBundle 'svn.vim'
+
+" for php development
+au FileType php NeoBundle 'php.vim'
+
+" for redmine
+NeoBundle 'mattn/webapi-vim'
+NeoBundle 'kana/vim-metarw'
+NeoBundle 'mattn/vim-metarw-redmine'
+NeoBundle 'timcharper/textile.vim'
+NeoBundle 'tpope/vim-markdown'
+
+"NeoBundle 'tyru/open-browser.vim'
+"NeoBundle 'basyura/unite-yarm'
+"NeoBundle 'basyura/rmine.vim'
+
+au FileType coffee NeoBundle 'kchmck/vim-coffee-script'
+
+NeoBundle 'itchyny/calendar.vim'
+
+let g:calendar_google_calendar = 1
+"let g:calendar_google_task = 1
+let g:calendar_frame = 'default'
+
+"augroup html
+"  NeoBundle 'html5.vim'
+"augroup END
+au FileType css NeoBundle 'hail2u/vim-css3-syntax'
+"  NeoBundle 'JulesWang/css.vim'
+
+au FileType javascript NeoBundle 'pangloss/vim-javascript'
+au FileType javascript NeoBundle 'JavaScript-syntax'
+
+au FileType nginx NeoBundle 'nginx.vim'
+au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/* if &ft == '' | setfiletype nginx | endif
+
+" Brief help
+" :NeoBundleList          - list configured bundles
+" :NeoBundleInstall(!)    - install(update) bundles
+" :NeoBundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+
+" search plugins from > http://vim-scripts.org/vim/scripts.html
+" or :Unite neobundle/search
+
+" Installation check.
+if neobundle#exists_not_installed_bundles()
+  echomsg 'Not installed bundles : ' .
+    \ string(neobundle#get_not_installed_bundle_names())
+  echomsg 'Please execute ":NeoBundleInstall" command.'
+  "finish
+endif
+
+" for go-lang
+au FileType go set rtp+=$GOROOT/misc/vim
+au FileType go exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
+au FileType go set noexpandtab
+"au FileType go set rtp+=$GOROOT/misc/vim
+"au FileType go exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
+"au FileType go set noexpandtab
+
+
+"--------------------------------------------------
+" unite.vim and other
+"--------------------------------------------------
+let g:neomru#file_mru_path=expand('~/.vim/etc/neomru/file')
+let g:neomru#directory_mru_path=expand('~/.vim/etc/neomru/direcroty')
+
+
+"--------------------------------------------------
+" neocomplcache
+"--------------------------------------------------
+" set: dictionary= で辞書ファイルを指定
+" #php -r '$f=get_defined_functions();echo join("\n",$f["internal"]);'|sort > ~/.vim/dict/php.dict
+" or http://bit.ly/WlfSib   ... or nothing to do?
+au FileType php :set dictionary=~/.vim/dict/php.dict
+
+let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_camel_case_completion = 1
+let g:neocomplcache_enable_underbar_completion = 1
+let g:neocomplcache_smart_case = 1
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_manual_completion_start_length = 1
+let g:neocomplcache_caching_percent_in_statusline = 1
+let g:neocomplcache_enable_skip_completion = 1
+let g:neocomplcache_skip_input_time = '0.5'
+
+"補完するためのキーワードパターンを指定
+if !exists('g:neocomplcache_keyword_patterns')
+  let g:neocomplcache_keyword_patterns = {}
+endif
+"日本語を補完候補として取得しないようにする
+let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+"関数を補完するための区切り文字パターン
+if !exists('g:neocomplcache_delimiter_patterns')
+  let g:neocomplcache_delimiter_patterns = {}
+endif
+let g:neocomplcache_delimiter_patterns['php'] = ['->', '::', '\']
+
+"タグ補完の呼び出しパターン
+if !exists('g:neocomplcache_member_prefix_patterns')
+  let g:neocomplcache_member_prefix_patterns = {}
+endif
+let g:neocomplcache_member_prefix_patterns['php'] = '->\|::'
+
+
+"--------------------------------------------------
+" syntastic
+"--------------------------------------------------
+au FileType php: let g:syntastic_check_on_open = 1
+au FileType php: let g:syntastic_enable_signs = 1
+au FileType php: let g:syntastic_echo_current_error = 1
+au FileType php: let g:syntastic_auto_loc_list = 2
+au FileType php: let g:syntastic_enable_highlighting = 1
+au FileType php: set statusline+=%#warningmsg#
+au FileType php: set statusline+=%{SyntasticStatuslineFlag()}
+au FileType php: set statusline+=%*
+
+au FileType php: let g:syntastic_php_php_args = '-l'
+
+"--------------------------------------------------
+" VimShell
+"--------------------------------------------------
+" ,is: シェルを起動
+nnoremap <silent> ,is :VimShell<CR>
+" ,irb: irbを非同期で起動
+nnoremap <silent> ,irb :VimShellInteractive irb<CR>
+
+"--------------------------------------------------
+" QuickRun
+"--------------------------------------------------
+nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+let g:quickrun_config = {}
+let g:quickrun_config['javascript'] = {'command': 'node'}
+let g:quickrun_config['rspec'] = {'command': 'bundle exec rspec'}
+
+"--------------------------------------------------
+" ctags
+"--------------------------------------------------
+" tagsジャンプの時に複数ある時は一覧表示
+nnoremap <C-]> g<C-]>
+"
+" filetype で切り替えるべき
+"au FileType php set tags+=$HOME/.tags/php.tags
+"au FileType php let g:vim_tags_project_tags_command = "ctags --languages=php -f ~/.tags/php.tags `pwd` 2>/dev/null &"
+"au FileType php let g:vim_tags_project_tags_command = "ctags --languages=php `pwd` 2>/dev/null &"
+"TODO この辺りはもっと綺麗にできると思う
+"TODO 環境を増やすと同じタグが複数 .tags ファイルに追加されてしまう。環境で分けるべきか。
+"set tags=tags
+
+"--------------------------------------------------
+" over.vim
+"--------------------------------------------------
+" over.vimの起動
+nnoremap <silent> ,m :OverCommandLine<CR>
+" カーソル下の単語をハイライト付きで置換
+nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+" コピーした文字列をハイライト付きで置換
+nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
+
+"--------------------------------------------------
+" vim-metarw-redmine
+"--------------------------------------------------
+let g:metarw_redmine_server = 'https://m2.d.yumemi.jp/redmine/'
+let g:metarw_redmine_apikey = '5f0805ce71c986e1f5ecea126b94b4c5f60c3f12'
+let g:rmine_server_url = 'https://m2.d.yumemi.jp/redmine/'
+let g:rmine_access_key = '5f0805ce71c986e1f5ecea126b94b4c5f60c3f12'
+"let g:unite_yarm_server_url = 'https://m2.d.yumemi.jp/redmine/'
+"let g:unite_yarm_access_key = '5f0805ce71c986e1f5ecea126b94b4c5f60c3f12'
+
+
+"---------------------------------------------------
+" for coffee-script
+"---------------------------------------------------
+" vimにcoffeeファイルタイプを認識させる
+au BufRead,BufNewFile,BufReadPre *.coffee   set filetype=coffee
+" インデントを設定
+autocmd FileType coffee     setlocal sw=2 sts=2 ts=2 et
+
+"autocmd BufWritePost *.coffee silent CoffeeMake! -cb | cwindow | redraw!
+
+
+"--------------------------------------------------
+" vim-indent-guides
+"--------------------------------------------------
+" indent-guides を有効にする
+"let g:indent_guides_enable_on_vim_startup=1
+" 2インデント目からガイドする
+let g:indent_guides_start_level = 2
+" 自動カラーを無効にして手動で設定する
+let g:indent_guides_auto_colors = 0
+"hi IndentGuidesOdd  ctermbg=gray
+hi IndentGuidesEven ctermbg=darkgray
+" ガイドの幅
+let g:indent_guides_guide_size = 1
+" ハイライト色の変化の幅 (Terminal では未サポート)
+"let g:indent_guides_color_change_percent = 20
+" ガイド幅をインデント幅に合わせる
+let g:indent_guides_guide_size = &tabstop
 
 "--------------------------------------------------
 " カーソル行のハイライト
@@ -546,4 +553,13 @@ let g:rails_devalut_database = 'mysql'
 "endfunction
 "autocmd User Rails call SetUpRailsSetting()
 "}}}
+
+
+"--------------------------------------------------
+" ファイルタイプ
+"--------------------------------------------------
+"filetype on
+filetype indent on
+filetype plugin on
+filetype plugin indent on     " required!
 
