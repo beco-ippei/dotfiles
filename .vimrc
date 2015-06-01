@@ -183,11 +183,12 @@ au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
 "$ git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
-  call neobundle#begin(expand('~/.vim/bundle/'))
-    " Let NeoBundle manage NeoBundle
-    NeoBundleFetch 'Shougo/neobundle.vim'
-  call neobundle#end()
 endif
+
+call neobundle#begin(expand('~/.vim/bundle/'))
+" Let NeoBundle manage NeoBundle
+NeoBundleFetch 'Shougo/neobundle.vim'
+
 " Let NeoBundle manage NeoBundle
 "NeoBundleFetch 'Shougo/neobundle.vim'
 " originalrepos on github
@@ -275,6 +276,13 @@ au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/* if &ft == '' | setfil
 " search plugins from > http://vim-scripts.org/vim/scripts.html
 " or :Unite neobundle/search
 
+"au FileType go NeoBundle 'fatih/vim-go'
+"au FileType go NeoBundle 'google/vim-ft-go'
+NeoBundle 'fatih/vim-go'
+NeoBundle 'google/vim-ft-go'
+
+call neobundle#end()
+
 " Installation check.
 if neobundle#exists_not_installed_bundles()
   echomsg 'Not installed bundles : ' .
@@ -283,13 +291,11 @@ if neobundle#exists_not_installed_bundles()
   "finish
 endif
 
+
 " for go-lang
-au FileType go set rtp+=$GOROOT/misc/vim
+"au FileType go set rtp+=$GOROOT/misc/vim
 au FileType go exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
 au FileType go set noexpandtab
-"au FileType go set rtp+=$GOROOT/misc/vim
-"au FileType go exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
-"au FileType go set noexpandtab
 
 
 "--------------------------------------------------
