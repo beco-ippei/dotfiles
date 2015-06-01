@@ -46,7 +46,7 @@ for file in `ls $HOME/.zsh/*.zsh`; do
   source $file
 done
 
-which ruby
+which ruby >/dev/null
 if [ "$?" = "0" ]; then
   export PATH=`ruby -e "puts '${PATH}'.split(':').uniq.join(':')"`
 fi

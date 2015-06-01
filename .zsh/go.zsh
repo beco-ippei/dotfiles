@@ -1,1 +1,1 @@
-export GOPATH=~/.go
+export GOPATH=/var/devel/go
