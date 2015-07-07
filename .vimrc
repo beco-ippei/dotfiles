@@ -3,6 +3,8 @@
 "--------------------------------------------------
 "TODO OS別で設定変えたい
 set nocompatible
+filetype off    "TODO what does this?
+
 set fileformats=unix,dos,mac
 set vb t_vb=
 set backspace=indent,eol,start
@@ -31,7 +33,7 @@ endif
 " Let NeoBundle manage NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
 " originalrepos on github
-NeoBundle 'Shougo/neobundle.vim'
+"NeoBundle 'Shougo/neobundle.vim'
 
 "--------------------------------------------------
 " コピーなど
@@ -114,6 +116,86 @@ au FileType php setl sw=4 sts=4 ts=4
 
 
 "--------------------------------------------------
+" コピーなど
+"--------------------------------------------------
+" Ctrl-P で何度もPasteしたい
+vnoremap <silent> <C-p> "0p
+
+"--------------------------------------------------
+" バックアップ関係
+"--------------------------------------------------
+set nobackup
+set writebackup
+set noswapfile
+
+"--------------------------------------------------
+" 検索関係
+"--------------------------------------------------
+set history=200
+set ignorecase
+set nowrapscan
+set incsearch
+
+"--------------------------------------------------
+" 表示関係
+"--------------------------------------------------
+set title
+set number
+set showcmd
+set laststatus=2
+set showmatch
+set matchtime=2
+"set ruler
+syntax on
+set hlsearch
+highlight Comment ctermfg=DarkCyan
+set wildmenu
+
+set scrolloff=5
+set textwidth=0
+set wrap
+"ホワイトスペース類を表示する
+set list
+set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+
+set statusline=%F%m%r%h%w\%=[FORMAT=%{&ff}]\[TYPE=%Y]\%{'[ENC='.(&fenc!=''?&fenc:&enc).']'}\[POS=%05l/%05L]
+
+"記号の見た目調整
+set ambiwidth=double
+
+set foldmethod=marker
+
+"--------------------------------------------------
+" 色の調整
+"--------------------------------------------------
+hi Directory term=bold ctermfg=brown
+
+"--------------------------------------------------
+" ファイルタイプ
+"--------------------------------------------------
+"filetype on
+"filetype indent on
+"filetype plugin on
+"filetype plugin indent on     " required!
+
+au BufNewFile,BufRead *.logic setf php
+au BufNewFile,BufRead *.go setf go
+
+"--------------------------------------------------
+" インデント
+"--------------------------------------------------
+set autoindent
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set expandtab
+set smartindent
+set cindent
+" for php
+au FileType php setl sw=4 sts=4 ts=4
+
+
+"--------------------------------------------------
 " ファイラー
 "--------------------------------------------------
 " netrwは常にtree view
@@ -134,6 +216,30 @@ nnoremap <silent> ,fi :<C-u>VimFilerBufferDir -split -simple -winwidth=35 -no-qu
 
 " 色の調整
 hi Directory term=bold ctermfg=brown
+
+"--------------------------------------------------
+" 国際化関係
+"--------------------------------------------------
+set encoding=utf-8
+set termencoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8,ucs-bom,euc-jp,cp932,iso-2022-jp
+set fileencodings+=,ucs-2le,ucs-2,utf-8
+set fencs=utf-8,iso-2022-jp,euc-jp,cp932
+
+"--------------------------------------------------
+" 入力支援
+"--------------------------------------------------
+
+"縦方向移動支援
+nnoremap <c-j> 5j
+nnoremap <c-k> 5k
+au FileType help nnoremap <c-j> <Nop>
+au FileType help nnoremap <c-k> <Nop>
+
+"インデント時の再選択状態
+vnoremap < <gv
+vnoremap > >gv
 
 
 "--------------------------------------------------
@@ -166,18 +272,11 @@ au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
 "--------------------------------------------------
 " プラグイン
 "--------------------------------------------------
-"filetype off    "TODO what does this?
 
-"NOTE: NeoBundleは先に実行
-"" if NeoBundle not installed, exec below commands
-""$ mkdir -p ~/.vim/bundle
-""$ git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
-"if has('vim_starting')
-"  set runtimepath+=~/.vim/bundle/neobundle.vim
-"  call neobundle#rc(expand('~/.vim/bundle/'))
-"endif
+"call neobundle#begin(expand('~/.vim/bundle/'))
 "" Let NeoBundle manage NeoBundle
 "NeoBundleFetch 'Shougo/neobundle.vim'
+
 "" originalrepos on github
 "NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc', { 'build' :
@@ -188,11 +287,6 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neomru.vim', { 'depends' : 'Shougo/unite.vim' }
 NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'taichouchou2/neorspec.vim', {
-  \ 'depends' : ['tpope/vim-rails', 'tpope/vim-dispatch'],
-  \ 'autoload' : {
-  \   'commands' : ['RSpec', 'RSpecAll', 'RSpecCurrent', 'RSpecNearest', 'RSpecRetry']
-  \ }}
 
 NeoBundle 'quickrun.vim'
 
@@ -207,30 +301,28 @@ NeoBundle 'scrooloose/syntastic'
 "NeoBundle 'osyo-manga/vim-over'
 
 " for ruby development
-augroup ruby
-  NeoBundle 'vim-ruby/vim-ruby'
-  NeoBundle 'rails.vim'
-  NeoBundle 'rspec.vim'
-  NeoBundle 'taichouchou2/neorspec.vim', {
+au FileType ruby NeoBundle 'vim-ruby/vim-ruby'
+au FileType ruby NeoBundle 'rails.vim'
+au FileType ruby NeoBundle 'rspec.vim'
+au FileType ruby NeoBundle 'taichouchou2/neorspec.vim', {
     \ 'depends' : ['tpope/vim-rails', 'tpope/vim-dispatch'],
     \ 'autoload' : {
     \   'commands' : ['RSpec', 'RSpecAll', 'RSpecCurrent', 'RSpecNearest', 'RSpecRetry']
     \ }}
-augroup END
 
-NeoBundle 'joker1007/vim-markdown-quote-syntax'
 " Add syntax rule
-let g:ruby_heredoc_syntax_filetypes = {
-  \ "xml" : { "start" : "XML", },
-  \ "html" : { "start" : "HTML", },
-  \ }
+au FileType ruby NeoBundle 'joker1007/vim-markdown-quote-syntax'
+au FileType ruby let g:ruby_heredoc_syntax_filetypes = {
+    \ "xml" : { "start" : "XML", },
+    \ "html" : { "start" : "HTML", },
+    \ }
 
 "NeoBundle 'project.vim'
-NeoBundle 'svn.vim'
+au FileType svn NeoBundle 'svn.vim'
 
 " for php development
-NeoBundle 'php.vim'
 au FileType php :set dictionary=~/.vim/dict/php.dict
+au FileType php NeoBundle 'php.vim'
 
 " for redmine
 NeoBundle 'mattn/webapi-vim'
@@ -241,7 +333,7 @@ NeoBundle 'tpope/vim-markdown'
 
 "NeoBundle 'tyru/open-browser.vim'
 "NeoBundle 'basyura/unite-yarm'
-NeoBundle 'basyura/rmine.vim'
+"NeoBundle 'basyura/rmine.vim'
 
 NeoBundle 'itchyny/calendar.vim'
 
@@ -249,25 +341,24 @@ let g:calendar_google_calendar = 1
 "let g:calendar_google_task = 1
 let g:calendar_frame = 'default'
 
-augroup html
-  NeoBundle 'html5.vim'
-augroup END
+"augroup html
+"  NeoBundle 'html5.vim'
+"augroup END
+au FileType css NeoBundle 'hail2u/vim-css3-syntax'
+"  NeoBundle 'JulesWang/css.vim'
 
-augroup javascript
-  NeoBundle 'pangloss/vim-javascript'
-  NeoBundle 'JavaScript-syntax'
-augroup END
+au FileType javascript NeoBundle 'pangloss/vim-javascript'
+au FileType javascript NeoBundle 'JavaScript-syntax'
 
+au FileType nginx NeoBundle 'nginx.vim'
 au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/* if &ft == '' | setfiletype nginx | endif
-augroup nginx
-  NeoBundle 'nginx.vim'
-augroup END
 
 au BufRead,BufNewFile *.coffee  set filetype=coffee
-augroup coffee
-  NeoBundle 'kchmck/vim-coffee-script'
-  setlocal sw=2 sts=2 ts=2 et
-augroup END
+au FileType coffee NeoBundle 'kchmck/vim-coffee-script'
+"augroup coffee
+"  NeoBundle 'kchmck/vim-coffee-script'
+"  setlocal sw=2 sts=2 ts=2 et
+"augroup END
 
 
 " Brief help
@@ -278,6 +369,13 @@ augroup END
 " search plugins from > http://vim-scripts.org/vim/scripts.html
 " or :Unite neobundle/search
 
+"au FileType go NeoBundle 'fatih/vim-go'
+"au FileType go NeoBundle 'google/vim-ft-go'
+NeoBundle 'fatih/vim-go'
+NeoBundle 'google/vim-ft-go'
+
+"call neobundle#end()
+
 " Installation check.
 if neobundle#exists_not_installed_bundles()
   echomsg 'Not installed bundles : ' .
@@ -285,6 +383,12 @@ if neobundle#exists_not_installed_bundles()
   echomsg 'Please execute ":NeoBundleInstall" command.'
   "finish
 endif
+
+
+" for go-lang
+"au FileType go set rtp+=$GOROOT/misc/vim
+au FileType go exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
+au FileType go set noexpandtab
 
 
 "--------------------------------------------------
@@ -344,21 +448,16 @@ let g:neosnippet#snippets_directory = s:my_snippets
 "--------------------------------------------------
 " syntastic
 "--------------------------------------------------
-au FileType php :let g:syntastic_check_on_open = 1
-let g:syntastic_enable_signs = 1
-let g:syntastic_echo_current_error = 1
-let g:syntastic_auto_loc_list = 2
-let g:syntastic_enable_highlighting = 1
-" phpcs 重いので
-"au FileType php :let g:syntastic_enable_highlighting = 0
-let g:syntastic_enable_highlighting = 0
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+au FileType php: let g:syntastic_check_on_open = 1
+au FileType php: let g:syntastic_enable_signs = 1
+au FileType php: let g:syntastic_echo_current_error = 1
+au FileType php: let g:syntastic_auto_loc_list = 2
+au FileType php: let g:syntastic_enable_highlighting = 1
+au FileType php: set statusline+=%#warningmsg#
+au FileType php: set statusline+=%{SyntasticStatuslineFlag()}
+au FileType php: set statusline+=%*
 
-let g:syntastic_php_php_args = '-l'
-"let g:syntastic_php_phpcs_args = '--report=csv --standard=CakePHP'
-"let g:syntastic_php_phpcs_args = '--standard=Zend'
+au FileType php: let g:syntastic_php_php_args = '-l'
 
 "--------------------------------------------------
 " VimShell
@@ -410,6 +509,17 @@ let g:rmine_access_key = '5f0805ce71c986e1f5ecea126b94b4c5f60c3f12'
 "let g:unite_yarm_server_url = 'https://m2.d.yumemi.jp/redmine/'
 "let g:unite_yarm_access_key = '5f0805ce71c986e1f5ecea126b94b4c5f60c3f12'
 
+"---------------------------------------------------
+" for coffee-script
+"---------------------------------------------------
+" vimにcoffeeファイルタイプを認識させる
+au BufRead,BufNewFile,BufReadPre *.coffee   set filetype=coffee
+" インデントを設定
+autocmd FileType coffee     setlocal sw=2 sts=2 ts=2 et
+
+"autocmd BufWritePost *.coffee silent CoffeeMake! -cb | cwindow | redraw!
+
+
 "--------------------------------------------------
 " vim-indent-guides
 "--------------------------------------------------
@@ -427,30 +537,6 @@ let g:indent_guides_guide_size = 1
 "let g:indent_guides_color_change_percent = 20
 " ガイド幅をインデント幅に合わせる
 let g:indent_guides_guide_size = &tabstop
-
-"--------------------------------------------------
-" 国際化関係
-"--------------------------------------------------
-set encoding=utf-8
-set termencoding=utf-8
-set fileencoding=utf-8
-set fileencodings=utf-8,ucs-bom,euc-jp,cp932,iso-2022-jp
-set fileencodings+=,ucs-2le,ucs-2,utf-8
-set fencs=utf-8,iso-2022-jp,euc-jp,cp932
-
-"--------------------------------------------------
-" 入力支援
-"--------------------------------------------------
-
-"縦方向移動支援
-nnoremap <c-j> 5j
-nnoremap <c-k> 5k
-au FileType help nnoremap <c-j> <Nop>
-au FileType help nnoremap <c-k> <Nop>
-
-"インデント時の再選択状態
-vnoremap < <gv
-vnoremap > >gv
 
 "--------------------------------------------------
 " カーソル行のハイライト
@@ -537,8 +623,7 @@ augroup END
 "------------------------------------
 " rails.vim
 "------------------------------------
-""{{{
-"有効化
+" 有効化
 let g:rails_some_option = 1
 let g:rails_level = 2
 let g:rails_syntax = 1
@@ -551,47 +636,37 @@ let g:rails_default_file="app/controllers/application.rb"
 let g:rails_devalut_database = 'mysql'
 " let g:rails_ctags_arguments = ''
 
-function! SetUpRailsSetting()
-  nmap <buffer><C-C> <Nop>
-  imap <buffer><C-C> <Nop>
-  map <buffer><C-_><C-C> <Nop>
-
-  nmap <buffer><Space>r :R<CR>
-  nmap <buffer><Space>a :A<CR>
-  nmap <buffer><Space>m :Rmodel<Space>
-  nmap <buffer><Space>c :Rcontroller<Space>
-  nmap <buffer><Space>v :Rview<Space>
-  nmap <buffer><Space>s :Rspec<Space>
-"  nmap <buffer><Space>m :Rgen model<Space>
-"  nmap <buffer><Space>c :Rgen contoller<Space>
-"  nmap <buffer><Space>s :Rgen scaffold<Space>
-  nmap <buffer><Space>p :Rpreview<CR>
-  "  au FileType ruby,eruby,ruby.rspec let g:neocomplcache_dictionary_filetype_lists = {
-  "        \'ruby' : $HOME.'/.vim/dict/rails.dict',
-  "        \'eruby' : $HOME.'/.vim/dict/rails.dict'
-  "        \}
-  "  setl dict+=~/.vim/dict/rails.dict
-  "  setl dict+=~/.vim/dict/ruby.dict
-endfunction
-autocmd User Rails call SetUpRailsSetting()
+"function! SetUpRailsSetting()
+"  nmap <buffer><C-C> <Nop>
+"  imap <buffer><C-C> <Nop>
+"  map <buffer><C-_><C-C> <Nop>
+"
+"  nmap <buffer><Space>r :R<CR>
+"  nmap <buffer><Space>a :A<CR>
+"  nmap <buffer><Space>m :Rmodel<Space>
+"  nmap <buffer><Space>c :Rcontroller<Space>
+"  nmap <buffer><Space>v :Rview<Space>
+"  nmap <buffer><Space>s :Rspec<Space>
+""  nmap <buffer><Space>m :Rgen model<Space>
+""  nmap <buffer><Space>c :Rgen contoller<Space>
+""  nmap <buffer><Space>s :Rgen scaffold<Space>
+"  nmap <buffer><Space>p :Rpreview<CR>
+"  "  au FileType ruby,eruby,ruby.rspec let g:neocomplcache_dictionary_filetype_lists = {
+"  "        \'ruby' : $HOME.'/.vim/dict/rails.dict',
+"  "        \'eruby' : $HOME.'/.vim/dict/rails.dict'
+"  "        \}
+"  "  setl dict+=~/.vim/dict/rails.dict
+"  "  setl dict+=~/.vim/dict/ruby.dict
+"endfunction
+"autocmd User Rails call SetUpRailsSetting()
 "}}}
 
-"----------------------------------------------------
-" RSpec関連
-"----------------------------------------------------
-"au BufNewFile,BufRead *_spec.rb setf 'ruby.rspec'
-let g:quickrun_config = {}
-let g:quickrun_config['ruby.rspec'] = {'command': 'spec'}
 
-"TODO: 以下は多分残骸
-" rails.vim
-"let g:rails_level=4
-"let g:rails_default_file="app/controllers/application.rb"
-"let g:rails_default_database="mysql"
-
-" rubycomplete.vim
-"autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
-"autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
-"autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
-"autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+"--------------------------------------------------
+" ファイルタイプ
+"--------------------------------------------------
+"filetype on
+filetype indent on
+filetype plugin on
+filetype plugin indent on     " required!
 
