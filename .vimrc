@@ -28,10 +28,10 @@ nmap ,p "*p
 "$ git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
-  call neobundle#rc(expand('~/.vim/bundle/'))
+  "call neobundle#rc(expand('~/.vim/bundle/'))
 endif
 " Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
+"NeoBundleFetch 'Shougo/neobundle.vim'
 " originalrepos on github
 "NeoBundle 'Shougo/neobundle.vim'
 
@@ -273,7 +273,7 @@ au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
 " プラグイン
 "--------------------------------------------------
 
-"call neobundle#begin(expand('~/.vim/bundle/'))
+call neobundle#begin(expand('~/.vim/bundle/'))
 "" Let NeoBundle manage NeoBundle
 "NeoBundleFetch 'Shougo/neobundle.vim'
 
@@ -374,7 +374,7 @@ au FileType coffee NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'fatih/vim-go'
 NeoBundle 'google/vim-ft-go'
 
-"call neobundle#end()
+call neobundle#end()
 
 " Installation check.
 if neobundle#exists_not_installed_bundles()
