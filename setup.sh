@@ -5,6 +5,7 @@ files+=(".rspec")
 files+=(".oh-my-zsh/themes/ippei.zsh-theme")
 files+=(".zsh/custom.zsh" ".zsh/dev.zsh" ".zsh/ruby.zsh" ".zsh/go.zsh")
 files+=(".bundler/config")
+files+=(".vim/ftdetect/*")
 
 if [ ! -d "_backup/" ]; then
   mkdir _backup/
@@ -14,6 +15,9 @@ if [ ! -d "$HOME/.zsh/" ]; then
 fi
 if [ ! -d "$HOME/.bundler/" ]; then
   mkdir $HOME/.bundler/
+fi
+if [ ! -d "$HOME/.vim/ftdetect" ]; then
+  mkdir -p $HOME/.vim/ftdetect/
 fi
 
 curdir=`pwd`
