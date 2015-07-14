@@ -170,6 +170,8 @@ hi Directory term=bold ctermfg=brown
 "--------------------------------------------------
 au BufNewFile,BufRead *.logic setf php
 au BufNewFile,BufRead *.go setf go
+au BufRead,BufNewFile,BufReadPre *.coffee  set filetype=coffee
+au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/* if &ft == '' | setfiletype nginx | endif
 
 "--------------------------------------------------
 " インデント
@@ -310,12 +312,20 @@ let g:calendar_google_calendar = 1
 "let g:calendar_google_task = 1
 let g:calendar_frame = 'default'
 
+NeoBundleLazy 'php.vim', {
+  \ 'autoload' : {
+  \   'filetypes' : [ 'php' ], }, }
+
 "augroup html
 "  NeoBundle 'html5.vim'
 "augroup END
 "au FileType css NeoBundle 'hail2u/vim-css3-syntax'
 NeoBundle 'hail2u/vim-css3-syntax'
 "  NeoBundle 'JulesWang/css.vim'
+NeoBundle 'html5.vim'
+NeoBundleLazy 'html5.vim', { 'autolaod' : {
+  \ 'filetypes' : ['html'],
+  \ 'insert' : 1,},}
 
 "au FileType javascript NeoBundle 'pangloss/vim-javascript'
 "au FileType javascript NeoBundle 'JavaScript-syntax'
@@ -324,9 +334,7 @@ NeoBundle 'JavaScript-syntax'
 
 "au FileType nginx NeoBundle 'nginx.vim'
 NeoBundle 'nginx.vim'
-au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/* if &ft == '' | setfiletype nginx | endif
 
-au BufRead,BufNewFile *.coffee  set filetype=coffee
 "au FileType coffee NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'kchmck/vim-coffee-script'
 "augroup coffee
@@ -419,19 +427,19 @@ smap <C-k> <Plug>(neosnippet_expand_or_jump)
 let s:my_snippets = '~/.vim/snippets/'
 let g:neosnippet#snippets_directory = s:my_snippets
 
-"--------------------------------------------------
-" syntastic
-"--------------------------------------------------
-au FileType php: let g:syntastic_check_on_open = 1
-au FileType php: let g:syntastic_enable_signs = 1
-au FileType php: let g:syntastic_echo_current_error = 1
-au FileType php: let g:syntastic_auto_loc_list = 2
-au FileType php: let g:syntastic_enable_highlighting = 1
-au FileType php: set statusline+=%#warningmsg#
-au FileType php: set statusline+=%{SyntasticStatuslineFlag()}
-au FileType php: set statusline+=%*
-
-au FileType php: let g:syntastic_php_php_args = '-l'
+""--------------------------------------------------
+"" syntastic
+""--------------------------------------------------
+"au FileType php: let g:syntastic_check_on_open = 1
+"au FileType php: let g:syntastic_enable_signs = 1
+"au FileType php: let g:syntastic_echo_current_error = 1
+"au FileType php: let g:syntastic_auto_loc_list = 2
+"au FileType php: let g:syntastic_enable_highlighting = 1
+"au FileType php: set statusline+=%#warningmsg#
+"au FileType php: set statusline+=%{SyntasticStatuslineFlag()}
+"au FileType php: set statusline+=%*
+"
+"au FileType php: let g:syntastic_php_php_args = '-l'
 
 "--------------------------------------------------
 " VimShell
@@ -486,8 +494,6 @@ let g:rmine_access_key = '5f0805ce71c986e1f5ecea126b94b4c5f60c3f12'
 "---------------------------------------------------
 " for coffee-script
 "---------------------------------------------------
-" vimにcoffeeファイルタイプを認識させる
-au BufRead,BufNewFile,BufReadPre *.coffee   set filetype=coffee
 " インデントを設定
 autocmd FileType coffee     setlocal sw=2 sts=2 ts=2 et
 
@@ -556,6 +562,7 @@ endfunction
 
 "autocmd BufWritePre *.rb,*.js call RTrim()
 autocmd BufWritePre *.rb call RTrim()
+"TODO: port to ruby.vim
 
 "----------------------------------------------------
 " php-debug 設定
