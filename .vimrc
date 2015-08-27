@@ -28,12 +28,7 @@ nmap ,p "*p
 "$ git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
-  "call neobundle#rc(expand('~/.vim/bundle/'))
 endif
-" Let NeoBundle manage NeoBundle
-"NeoBundleFetch 'Shougo/neobundle.vim'
-" originalrepos on github
-"NeoBundle 'Shougo/neobundle.vim'
 
 "--------------------------------------------------
 " コピーなど
@@ -173,13 +168,10 @@ hi Directory term=bold ctermfg=brown
 "--------------------------------------------------
 " ファイルタイプ
 "--------------------------------------------------
-"filetype on
-"filetype indent on
-"filetype plugin on
-"filetype plugin indent on     " required!
-
 au BufNewFile,BufRead *.logic setf php
 au BufNewFile,BufRead *.go setf go
+au BufRead,BufNewFile,BufReadPre *.coffee  set filetype=coffee
+au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/* if &ft == '' | setfiletype nginx | endif
 
 "--------------------------------------------------
 " インデント
@@ -300,31 +292,10 @@ NeoBundle 'scrooloose/syntastic'
 "TODO うまく入ってない模様
 "NeoBundle 'osyo-manga/vim-over'
 
-" for ruby development
-au FileType ruby NeoBundle 'vim-ruby/vim-ruby'
-au FileType ruby NeoBundle 'rails.vim'
-au FileType ruby NeoBundle 'rspec.vim'
-au FileType ruby NeoBundle 'taichouchou2/neorspec.vim', {
-    \ 'depends' : ['tpope/vim-rails', 'tpope/vim-dispatch'],
-    \ 'autoload' : {
-    \   'commands' : ['RSpec', 'RSpecAll', 'RSpecCurrent', 'RSpecNearest', 'RSpecRetry']
-    \ }}
-
-" Add syntax rule
-au FileType ruby NeoBundle 'joker1007/vim-markdown-quote-syntax'
-au FileType ruby let g:ruby_heredoc_syntax_filetypes = {
-    \ "xml" : { "start" : "XML", },
-    \ "html" : { "start" : "HTML", },
-    \ }
-
 "NeoBundle 'project.vim'
-au FileType svn NeoBundle 'svn.vim'
+NeoBundle 'svn.vim'
 
-" for php development
-au FileType php :set dictionary=~/.vim/dict/php.dict
-au FileType php NeoBundle 'php.vim'
-
-" for redmine
+"" for redmine
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'kana/vim-metarw'
 NeoBundle 'mattn/vim-metarw-redmine'
@@ -341,20 +312,31 @@ let g:calendar_google_calendar = 1
 "let g:calendar_google_task = 1
 let g:calendar_frame = 'default'
 
+NeoBundleLazy 'php.vim', {
+  \ 'autoload' : {
+  \   'filetypes' : [ 'php' ], }, }
+
 "augroup html
 "  NeoBundle 'html5.vim'
 "augroup END
-au FileType css NeoBundle 'hail2u/vim-css3-syntax'
+"au FileType css NeoBundle 'hail2u/vim-css3-syntax'
+NeoBundle 'hail2u/vim-css3-syntax'
 "  NeoBundle 'JulesWang/css.vim'
+NeoBundle 'html5.vim'
+NeoBundleLazy 'html5.vim', { 'autolaod' : {
+  \ 'filetypes' : ['html'],
+  \ 'insert' : 1,},}
 
-au FileType javascript NeoBundle 'pangloss/vim-javascript'
-au FileType javascript NeoBundle 'JavaScript-syntax'
+"au FileType javascript NeoBundle 'pangloss/vim-javascript'
+"au FileType javascript NeoBundle 'JavaScript-syntax'
+NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'JavaScript-syntax'
 
-au FileType nginx NeoBundle 'nginx.vim'
-au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/* if &ft == '' | setfiletype nginx | endif
+"au FileType nginx NeoBundle 'nginx.vim'
+NeoBundle 'nginx.vim'
 
-au BufRead,BufNewFile *.coffee  set filetype=coffee
-au FileType coffee NeoBundle 'kchmck/vim-coffee-script'
+"au FileType coffee NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'kchmck/vim-coffee-script'
 "augroup coffee
 "  NeoBundle 'kchmck/vim-coffee-script'
 "  setlocal sw=2 sts=2 ts=2 et
@@ -445,19 +427,19 @@ smap <C-k> <Plug>(neosnippet_expand_or_jump)
 let s:my_snippets = '~/.vim/snippets/'
 let g:neosnippet#snippets_directory = s:my_snippets
 
-"--------------------------------------------------
-" syntastic
-"--------------------------------------------------
-au FileType php: let g:syntastic_check_on_open = 1
-au FileType php: let g:syntastic_enable_signs = 1
-au FileType php: let g:syntastic_echo_current_error = 1
-au FileType php: let g:syntastic_auto_loc_list = 2
-au FileType php: let g:syntastic_enable_highlighting = 1
-au FileType php: set statusline+=%#warningmsg#
-au FileType php: set statusline+=%{SyntasticStatuslineFlag()}
-au FileType php: set statusline+=%*
-
-au FileType php: let g:syntastic_php_php_args = '-l'
+""--------------------------------------------------
+"" syntastic
+""--------------------------------------------------
+"au FileType php: let g:syntastic_check_on_open = 1
+"au FileType php: let g:syntastic_enable_signs = 1
+"au FileType php: let g:syntastic_echo_current_error = 1
+"au FileType php: let g:syntastic_auto_loc_list = 2
+"au FileType php: let g:syntastic_enable_highlighting = 1
+"au FileType php: set statusline+=%#warningmsg#
+"au FileType php: set statusline+=%{SyntasticStatuslineFlag()}
+"au FileType php: set statusline+=%*
+"
+"au FileType php: let g:syntastic_php_php_args = '-l'
 
 "--------------------------------------------------
 " VimShell
@@ -512,8 +494,6 @@ let g:rmine_access_key = '5f0805ce71c986e1f5ecea126b94b4c5f60c3f12'
 "---------------------------------------------------
 " for coffee-script
 "---------------------------------------------------
-" vimにcoffeeファイルタイプを認識させる
-au BufRead,BufNewFile,BufReadPre *.coffee   set filetype=coffee
 " インデントを設定
 autocmd FileType coffee     setlocal sw=2 sts=2 ts=2 et
 
@@ -582,6 +562,7 @@ endfunction
 
 "autocmd BufWritePre *.rb,*.js call RTrim()
 autocmd BufWritePre *.rb call RTrim()
+"TODO: port to ruby.vim
 
 "----------------------------------------------------
 " php-debug 設定
@@ -666,7 +647,7 @@ let g:rails_devalut_database = 'mysql'
 " ファイルタイプ
 "--------------------------------------------------
 "filetype on
-filetype indent on
-filetype plugin on
+"filetype indent on
+"filetype plugin on
 filetype plugin indent on     " required!
 
