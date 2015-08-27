@@ -46,8 +46,12 @@ for file in `ls $HOME/.zsh/*.zsh`; do
   source $file
 done
 
-which ruby >/dev/null
-if [ "${?}" = "0" ]; then
-  export PATH=`ruby -e "puts '${PATH}'.split(':').uniq.join(':')"`
-fi
+# uniq, keep sequence.
+pathes=`echo $PATH | sed -e 's/:/\n/g'`
+u=`echo $pathes | head -n1`
+for p in `echo $pathes`; do
+  echo ":${u}:" | grep -q ":${p}:"
+  [ "$?" != "0" ] && u="${u}:${p}"
+done
+export PATH=$u
 
