@@ -8,3 +8,4 @@ alias php_dict="php -r '\$f=get_defined_functions();echo join(\"\n\", \$f[\'inte
 alias git-ls-ignore="git ls-files -v | grep -e '^[^H]'"
 # http://qiita.com/usamik26/items/56d0d3ba7a1300625f92
 
+#export JAVA_HOME=/usr

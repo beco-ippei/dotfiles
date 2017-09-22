@@ -20,15 +20,46 @@ vmap ,y "*y
 nmap ,p "*p
 
 "--------------------------------------------------
-" プラグイン (NeoBundle のみ先に)
+" プラグイン
 "--------------------------------------------------
 
-" if NeoBundle not installed, exec below commands
-"$ mkdir -p ~/.vim/bundle
-"$ git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
-if has('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim
+" プラグインが実際にインストールされるディレクトリ
+let s:dein_dir = expand('~/.cache/dein')
+" dein.vim 本体
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+" dein.vim がなければ github から落としてくる
+if &runtimepath !~# '/dein.vim'
+  if !isdirectory(s:dein_repo_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+  endif
+  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
 endif
+
+" 設定開始
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
+
+  " プラグインリストを収めた TOML ファイル
+  " 予め TOML ファイル（後述）を用意しておく
+  let g:rc_dir    = expand('~/.vim/rc')
+  let s:toml      = g:rc_dir . '/dein.toml'
+  "let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
+
+  " TOML を読み込み、キャッシュしておく
+  call dein#load_toml(s:toml,      {'lazy': 0})
+  "call dein#load_toml(s:lazy_toml, {'lazy': 1})
+
+  " 設定終了
+  call dein#end()
+  call dein#save_state()
+endif
+
+" もし、未インストールものものがあったらインストール
+if dein#check_install()
+  call dein#install()
+endif
+
 
 "--------------------------------------------------
 " コピーなど
@@ -58,8 +89,6 @@ filetype on
 filetype indent on
 filetype plugin on
 filetype plugin indent on     " required!
-
-au BufNewFile,BufRead *.logic setf php
 
 "--------------------------------------------------
 " 表示関係
@@ -108,6 +137,7 @@ set smartindent
 set cindent
 " for php
 au FileType php setl sw=4 sts=4 ts=4
+au FileType python setl sw=2 sts=2 ts=2
 
 
 "--------------------------------------------------
@@ -168,10 +198,12 @@ hi Directory term=bold ctermfg=brown
 "--------------------------------------------------
 " ファイルタイプ
 "--------------------------------------------------
-au BufNewFile,BufRead *.logic setf php
+"au BufNewFile,BufRead *.logic setf php
 au BufNewFile,BufRead *.go setf go
-au BufRead,BufNewFile,BufReadPre *.coffee  set filetype=coffee
-au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/* if &ft == '' | setfiletype nginx | endif
+au BufRead,BufNewFile *.coffee  set ft=coffee
+"au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/* if &ft == '' | setfiletype nginx | endif
+"au BufRead,BufNewFile /usr/local/etc/nginx/nginx.conf setfiletype nginx
+au BufRead,BufNewFile nginx.conf,etc/nginx/* set ft=nginx
 
 "--------------------------------------------------
 " インデント
@@ -265,106 +297,106 @@ au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
 " プラグイン
 "--------------------------------------------------
 
-call neobundle#begin(expand('~/.vim/bundle/'))
-"" Let NeoBundle manage NeoBundle
-"NeoBundleFetch 'Shougo/neobundle.vim'
-
-"" originalrepos on github
-"NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimproc', { 'build' :
-    \ { 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, }
-NeoBundle 'Shougo/vimshell'
-NeoBundle 'Shougo/vimfiler'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neomru.vim', { 'depends' : 'Shougo/unite.vim' }
-NeoBundle 'Shougo/neocomplcache'
-
-NeoBundle 'quickrun.vim'
-
-NeoBundle 'nathanaelkane/vim-indent-guides'
-NeoBundle 'scrooloose/syntastic'
-"NeoBundle 'szw/vim-tags'
-"NeoBundle 'taglist.vim'
-"NeoBundle 'tagexplorer.vim'
-
-"NeoBundle 'kien/ctrlp.vim'
-"TODO うまく入ってない模様
-"NeoBundle 'osyo-manga/vim-over'
-
-"NeoBundle 'project.vim'
-NeoBundle 'svn.vim'
-
-"" for redmine
-NeoBundle 'mattn/webapi-vim'
-NeoBundle 'kana/vim-metarw'
-NeoBundle 'mattn/vim-metarw-redmine'
-NeoBundle 'timcharper/textile.vim'
-NeoBundle 'tpope/vim-markdown'
-
-"NeoBundle 'tyru/open-browser.vim'
-"NeoBundle 'basyura/unite-yarm'
-"NeoBundle 'basyura/rmine.vim'
-
-NeoBundle 'itchyny/calendar.vim'
-
-let g:calendar_google_calendar = 1
-"let g:calendar_google_task = 1
-let g:calendar_frame = 'default'
-
-NeoBundleLazy 'php.vim', {
-  \ 'autoload' : {
-  \   'filetypes' : [ 'php' ], }, }
-
-"augroup html
-"  NeoBundle 'html5.vim'
-"augroup END
-"au FileType css NeoBundle 'hail2u/vim-css3-syntax'
-NeoBundle 'hail2u/vim-css3-syntax'
-"  NeoBundle 'JulesWang/css.vim'
-NeoBundle 'html5.vim'
-NeoBundleLazy 'html5.vim', { 'autolaod' : {
-  \ 'filetypes' : ['html'],
-  \ 'insert' : 1,},}
-
-"au FileType javascript NeoBundle 'pangloss/vim-javascript'
-"au FileType javascript NeoBundle 'JavaScript-syntax'
-NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'JavaScript-syntax'
-
-"au FileType nginx NeoBundle 'nginx.vim'
-NeoBundle 'nginx.vim'
-
-"au FileType coffee NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'kchmck/vim-coffee-script'
-"augroup coffee
-"  NeoBundle 'kchmck/vim-coffee-script'
-"  setlocal sw=2 sts=2 ts=2 et
-"augroup END
-
-
-" Brief help
-" :NeoBundleList          - list configured bundles
-" :NeoBundleInstall(!)    - install(update) bundles
-" :NeoBundleClean(!)      - confirm(or auto-approve) removal of unused bundles
-
-" search plugins from > http://vim-scripts.org/vim/scripts.html
-" or :Unite neobundle/search
-
-"au FileType go NeoBundle 'fatih/vim-go'
-"au FileType go NeoBundle 'google/vim-ft-go'
-NeoBundle 'fatih/vim-go'
-NeoBundle 'google/vim-ft-go'
-
-call neobundle#end()
-
-" Installation check.
-if neobundle#exists_not_installed_bundles()
-  echomsg 'Not installed bundles : ' .
-    \ string(neobundle#get_not_installed_bundle_names())
-  echomsg 'Please execute ":NeoBundleInstall" command.'
-  "finish
-endif
+"call neobundle#begin(expand('~/.vim/bundle/'))
+""" Let NeoBundle manage NeoBundle
+""NeoBundleFetch 'Shougo/neobundle.vim'
+"
+""" originalrepos on github
+""NeoBundle 'Shougo/neobundle.vim'
+"NeoBundle 'Shougo/vimproc', { 'build' :
+"    \ { 'mac' : 'make -f make_mac.mak', 'unix' : 'make -f make_unix.mak', }, }
+"NeoBundle 'Shougo/vimshell'
+"NeoBundle 'Shougo/vimfiler'
+"NeoBundle 'Shougo/unite.vim'
+"NeoBundle 'Shougo/neosnippet'
+"NeoBundle 'Shougo/neomru.vim', { 'depends' : 'Shougo/unite.vim' }
+"NeoBundle 'Shougo/neocomplcache'
+"
+"NeoBundle 'quickrun.vim'
+"
+"NeoBundle 'nathanaelkane/vim-indent-guides'
+"NeoBundle 'scrooloose/syntastic'
+""NeoBundle 'szw/vim-tags'
+""NeoBundle 'taglist.vim'
+""NeoBundle 'tagexplorer.vim'
+"
+""NeoBundle 'kien/ctrlp.vim'
+""TODO うまく入ってない模様
+""NeoBundle 'osyo-manga/vim-over'
+"
+""NeoBundle 'project.vim'
+"NeoBundle 'svn.vim'
+"
+""" for redmine
+"NeoBundle 'mattn/webapi-vim'
+"NeoBundle 'kana/vim-metarw'
+"NeoBundle 'mattn/vim-metarw-redmine'
+"NeoBundle 'timcharper/textile.vim'
+"NeoBundle 'tpope/vim-markdown'
+"
+""NeoBundle 'tyru/open-browser.vim'
+""NeoBundle 'basyura/unite-yarm'
+""NeoBundle 'basyura/rmine.vim'
+"
+"NeoBundle 'itchyny/calendar.vim'
+"
+"let g:calendar_google_calendar = 1
+""let g:calendar_google_task = 1
+"let g:calendar_frame = 'default'
+"
+"NeoBundleLazy 'php.vim', {
+"  \ 'autoload' : {
+"  \   'filetypes' : [ 'php' ], }, }
+"
+""augroup html
+""  NeoBundle 'html5.vim'
+""augroup END
+""au FileType css NeoBundle 'hail2u/vim-css3-syntax'
+"NeoBundle 'hail2u/vim-css3-syntax'
+""  NeoBundle 'JulesWang/css.vim'
+"NeoBundle 'html5.vim'
+"NeoBundleLazy 'html5.vim', { 'autolaod' : {
+"  \ 'filetypes' : ['html'],
+"  \ 'insert' : 1,},}
+"
+""au FileType javascript NeoBundle 'pangloss/vim-javascript'
+""au FileType javascript NeoBundle 'JavaScript-syntax'
+"NeoBundle 'pangloss/vim-javascript'
+"NeoBundle 'JavaScript-syntax'
+"
+""au FileType nginx NeoBundle 'nginx.vim'
+"NeoBundle 'nginx.vim'
+"
+""au FileType coffee NeoBundle 'kchmck/vim-coffee-script'
+"NeoBundle 'kchmck/vim-coffee-script'
+""augroup coffee
+""  NeoBundle 'kchmck/vim-coffee-script'
+""  setlocal sw=2 sts=2 ts=2 et
+""augroup END
+"
+"
+"" Brief help
+"" :NeoBundleList          - list configured bundles
+"" :NeoBundleInstall(!)    - install(update) bundles
+"" :NeoBundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+"
+"" search plugins from > http://vim-scripts.org/vim/scripts.html
+"" or :Unite neobundle/search
+"
+""au FileType go NeoBundle 'fatih/vim-go'
+""au FileType go NeoBundle 'google/vim-ft-go'
+"NeoBundle 'fatih/vim-go'
+"NeoBundle 'google/vim-ft-go'
+"
+"call neobundle#end()
+"
+"" Installation check.
+"if neobundle#exists_not_installed_bundles()
+"  echomsg 'Not installed bundles : ' .
+"    \ string(neobundle#get_not_installed_bundle_names())
+"  echomsg 'Please execute ":NeoBundleInstall" command.'
+"  "finish
+"endif
 
 
 " for go-lang
@@ -613,7 +645,7 @@ let g:rails_url='http://localhost:3000'
 let g:rails_subversion=0
 " let g:dbext_default_SQLITE_bin = 'mysql2'
 "let g:rails_default_file='config/database.yml'   " ???
-let g:rails_default_file="app/controllers/application.rb"
+"let g:rails_default_file="app/controllers/application.rb"
 let g:rails_devalut_database = 'mysql'
 " let g:rails_ctags_arguments = ''
 
