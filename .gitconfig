@@ -12,5 +12,5 @@
   name = vv-ippei
   email = ippei.kato@v-vanguard.co.jp
 [core]
-	excludesfile = /Users/ippei.kato/.gitignore_global
+  excludesfile = ~/.gitignore_global
   editor = /usr/bin/vim
