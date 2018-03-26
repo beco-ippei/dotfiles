@@ -5,7 +5,7 @@ files+=(".rspec")
 files+=(".oh-my-zsh/themes/ippei.zsh-theme")
 files+=(".zsh/custom.zsh" ".zsh/dev.zsh" ".zsh/ruby.zsh" ".zsh/go.zsh")
 files+=(".bundler/config")
-files+=(".vim/ftdetect/*")
+files+=(".vim/*")
 
 if [ ! -d "_backup/" ]; then
   mkdir _backup/
@@ -16,8 +16,8 @@ fi
 if [ ! -d "$HOME/.bundler/" ]; then
   mkdir $HOME/.bundler/
 fi
-if [ ! -d "$HOME/.vim/ftdetect" ]; then
-  mkdir -p $HOME/.vim/ftdetect/
+if [ ! -d "$HOME/.vim/" ]; then
+  mkdir -p $HOME/.vim/
 fi
 
 curdir=`pwd`
@@ -47,8 +47,8 @@ for file in $files[@]; do
 done
 
 # install neobundle.vim
-mkdir -p $HOME/.vim/bundle
-git clone git://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
+#mkdir -p $HOME/.vim/bundle
+#git clone git://github.com/Shougo/neobundle.vim $HOME/.vim/bundle/neobundle.vim
 
 # other type files
 file=".zsh/local_env.zsh"

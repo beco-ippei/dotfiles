@@ -58,6 +58,7 @@ endif
 " もし、未インストールものものがあったらインストール
 if dein#check_install()
   call dein#install()
+  call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
 endif
 
 
@@ -70,17 +71,17 @@ vnoremap <silent> <C-p> "0p
 "--------------------------------------------------
 " バックアップ関係
 "--------------------------------------------------
-set nobackup
-set writebackup
-set noswapfile
-
-"--------------------------------------------------
-" 検索関係
-"--------------------------------------------------
-set history=200
-set ignorecase
-set nowrapscan
-set incsearch
+"set nobackup
+"set writebackup
+"set noswapfile
+"
+""--------------------------------------------------
+"" 検索関係
+""--------------------------------------------------
+"set history=200
+"set ignorecase
+"set nowrapscan
+"set incsearch
 
 "--------------------------------------------------
 " ファイルタイプ
@@ -93,32 +94,32 @@ filetype plugin indent on     " required!
 "--------------------------------------------------
 " 表示関係
 "--------------------------------------------------
-set title
-set number
-set showcmd
-set laststatus=2
-set showmatch
-set matchtime=2
-"set ruler
-syntax on
-set hlsearch
-highlight Comment ctermfg=DarkCyan
-set wildmenu
-set wildmode=list:longest,full
-
-set scrolloff=5
-set textwidth=0
-set wrap
-"ホワイトスペース類を表示する
-set list
-set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
-
-set statusline=%F%m%r%h%w\%=[FORMAT=%{&ff}]\[TYPE=%Y]\%{'[ENC='.(&fenc!=''?&fenc:&enc).']'}\[POS=%05l/%05L]
+"set title
+"set number
+"set showcmd
+"set laststatus=2
+"set showmatch
+"set matchtime=2
+""set ruler
+"syntax on
+"set hlsearch
+"highlight Comment ctermfg=DarkCyan
+"set wildmenu
+"set wildmode=list:longest,full
+"
+"set scrolloff=5
+"set textwidth=0
+"set wrap
+""ホワイトスペース類を表示する
+"set list
+"set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+"
+"set statusline=%F%m%r%h%w\%=[FORMAT=%{&ff}]\[TYPE=%Y]\%{'[ENC='.(&fenc!=''?&fenc:&enc).']'}\[POS=%05l/%05L]
 
 "記号の見た目調整
-set ambiwidth=double
-
-set foldmethod=marker
+"set ambiwidth=double
+"
+"set foldmethod=marker
 
 "--------------------------------------------------
 " 色の調整
@@ -128,16 +129,16 @@ hi Directory term=bold ctermfg=brown
 "--------------------------------------------------
 " インデント
 "--------------------------------------------------
-set autoindent
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set expandtab
-set smartindent
-set cindent
-" for php
-au FileType php setl sw=4 sts=4 ts=4
-au FileType python setl sw=2 sts=2 ts=2
+"set autoindent
+"set tabstop=2
+"set softtabstop=2
+"set shiftwidth=2
+"set expandtab
+"set smartindent
+"set cindent
+"" for php
+"au FileType php setl sw=4 sts=4 ts=4
+"au FileType python setl sw=2 sts=2 ts=2
 
 
 "--------------------------------------------------
@@ -193,12 +194,13 @@ set foldmethod=marker
 "--------------------------------------------------
 " 色の調整
 "--------------------------------------------------
-hi Directory term=bold ctermfg=brown
+"hi Directory term=bold ctermfg=brown
 
 "--------------------------------------------------
 " ファイルタイプ
 "--------------------------------------------------
 "au BufNewFile,BufRead *.logic setf php
+au BufNewFile,BufRead *.ctp setf php
 au BufNewFile,BufRead *.go setf go
 au BufRead,BufNewFile *.coffee  set ft=coffee
 "au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/* if &ft == '' | setfiletype nginx | endif
@@ -217,7 +219,7 @@ set smartindent
 set cindent
 " for php
 au FileType php setl sw=4 sts=4 ts=4
-
+au FileType python setl sw=2 sts=2 ts=2
 
 "--------------------------------------------------
 " ファイラー

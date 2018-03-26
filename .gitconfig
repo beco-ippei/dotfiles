@@ -7,10 +7,8 @@
   ls-ignore = ls-files -v | grep -e '^[^H]'
 
 [user]
-  #name = beco-ippei
-  #email = beco.ippei@gmail.com
-  name = vv-ippei
-  email = ippei.kato@v-vanguard.co.jp
+  name = kato
+  email = ippei.kato@v-crews.co.jp
 [core]
   excludesfile = ~/.gitignore_global
   editor = /usr/bin/vim
