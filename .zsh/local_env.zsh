@@ -1,2 +1,1 @@
-MY_HOST_NAME="ippei-mbp"
-MY_PROMPT_COLOR="green"
+# 環境固有の設定があれば、直接 `~/.zsh/local_env.zsh` に設定を追加する
