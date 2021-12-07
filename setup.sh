@@ -4,7 +4,7 @@ files+=(".screenrc" ".tmux.conf" ".vimrc" ".vimshrc" ".zshrc")
 files+=(".rspec")
 files+=(".zsh/p10k.zsh")
 files+=(".zsh/custom.zsh" ".zsh/dev.zsh" ".zsh/ruby.zsh" ".zsh/go.zsh")
-files+=(".bundler/config")
+files+=(".bundle/config")
 files+=(".vim/*")
 
 if [ ! -d "_backup/" ]; then
@@ -13,8 +13,8 @@ fi
 if [ ! -d "$HOME/.zsh/" ]; then
   mkdir $HOME/.zsh/
 fi
-if [ ! -d "$HOME/.bundler/" ]; then
-  mkdir $HOME/.bundler/
+if [ ! -d "$HOME/.bundle/" ]; then
+  mkdir $HOME/.bundle/
 fi
 if [ ! -d "$HOME/.vim/" ]; then
   mkdir -p $HOME/.vim/

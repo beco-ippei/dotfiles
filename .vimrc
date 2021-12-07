@@ -1,8 +1,60 @@
+" if not installed dein.vim yet, see github and install.
+
+if &compatible
+  set nocompatible " Be iMproved
+endif
+
+" Required:
+" Add the dein installation directory into runtimepath
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+
+" Required:
+call dein#begin('~/.cache/dein')
+
+" Let dein manage dein
+call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
+
+" Add or remove your plugins here like this:
+call dein#add('Shougo/vimshell.vim')
+call dein#add('Shougo/vimfiler.vim')
+call dein#add('Shougo/unite.vim')
+call dein#add('Shougo/neosnippet.vim')
+call dein#add('Shougo/neosnippet-snippets')
+call dein#add('Shougo/neomru.vim')
+call dein#add('Shougo/neocomplcache.vim')
+call dein#add('vim-scripts/quickrun.vim')
+call dein#add('scrooloose/syntastic')
+
+" file type plugins
+"call dein#add('tpope/vim-markdown')
+call dein#add('vim-scripts/nginx.vim', {'on_ft': 'nginx'})
+"call dein#add('hail2u/vim-css3-syntax')
+"call dein#add('fatih/vim-go')
+"call dein#add('google/vim-ft-go')
+call dein#add('vim-ruby/vim-ruby', {'on_ft': 'ruby'})
+call dein#add('tpope/vim-rails', {'on_ft': 'ruby'})
+call dein#add('slim-template/vim-slim', {'on_ft': 'slim'})
+
+" Required:
+call dein#end()
+
+" Required:
+filetype plugin indent on
+syntax enable
+
+" If you want to install not installed plugins on startup.
+"if dein#check_install()
+" call dein#install()
+"endif
+
+" for rails
+autocmd BufRead,BufNewFile *.slim setfiletype slim
+
+
 "--------------------------------------------------
 " 基本的な設定
 "--------------------------------------------------
 "TODO OS別で設定変えたい
-set nocompatible
 filetype off    "TODO what does this?
 
 set fileformats=unix,dos,mac
@@ -23,43 +75,36 @@ nmap ,p "*p
 " プラグイン
 "--------------------------------------------------
 
-" プラグインが実際にインストールされるディレクトリ
-let s:dein_dir = expand('~/.cache/dein')
-" dein.vim 本体
-let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
-
-" dein.vim がなければ github から落としてくる
-if &runtimepath !~# '/dein.vim'
-  if !isdirectory(s:dein_repo_dir)
-    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
-  endif
-  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
-endif
-
-" 設定開始
-if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir)
-
-  " プラグインリストを収めた TOML ファイル
-  " 予め TOML ファイル（後述）を用意しておく
-  let g:rc_dir    = expand('~/.vim/rc')
-  let s:toml      = g:rc_dir . '/dein.toml'
-  "let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
-
-  " TOML を読み込み、キャッシュしておく
-  call dein#load_toml(s:toml,      {'lazy': 0})
-  "call dein#load_toml(s:lazy_toml, {'lazy': 1})
-
-  " 設定終了
-  call dein#end()
-  call dein#save_state()
-endif
-
-" もし、未インストールものものがあったらインストール
-if dein#check_install()
-  call dein#install()
-  call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
-endif
+"" プラグインが実際にインストールされるディレクトリ
+"let s:dein_dir = expand('~/.cache/dein')
+"" dein.vim 本体
+"let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+"
+"
+"" 設定開始
+"if dein#load_state(s:dein_dir)
+"  call dein#begin(s:dein_dir)
+"
+"  " プラグインリストを収めた TOML ファイル
+"  " 予め TOML ファイル（後述）を用意しておく
+"  let g:rc_dir    = expand('~/.vim/rc')
+"  let s:toml      = g:rc_dir . '/dein.toml'
+"  "let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
+"
+"  " TOML を読み込み、キャッシュしておく
+"  call dein#load_toml(s:toml,      {'lazy': 0})
+"  "call dein#load_toml(s:lazy_toml, {'lazy': 1})
+"
+"  " 設定終了
+"  call dein#end()
+"  call dein#save_state()
+"endif
+"
+"" もし、未インストールものものがあったらインストール
+"if dein#check_install()
+"  call dein#install()
+"  call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
+"endif
 
 
 "--------------------------------------------------
@@ -199,12 +244,7 @@ set foldmethod=marker
 "--------------------------------------------------
 " ファイルタイプ
 "--------------------------------------------------
-"au BufNewFile,BufRead *.logic setf php
 au BufNewFile,BufRead *.ctp setf php
-au BufNewFile,BufRead *.go setf go
-au BufRead,BufNewFile *.coffee  set ft=coffee
-"au BufRead,BufNewFile /etc/nginx/*,/usr/local/nginx/conf/* if &ft == '' | setfiletype nginx | endif
-"au BufRead,BufNewFile /usr/local/etc/nginx/nginx.conf setfiletype nginx
 au BufRead,BufNewFile nginx.conf,etc/nginx/* set ft=nginx
 
 "--------------------------------------------------
@@ -639,16 +679,16 @@ augroup END
 " rails.vim
 "------------------------------------
 " 有効化
-let g:rails_some_option = 1
-let g:rails_level = 2
-let g:rails_syntax = 1
-let g:rails_statusline = 1
-let g:rails_url='http://localhost:3000'
-let g:rails_subversion=0
+"let g:rails_some_option = 1
+"let g:rails_level = 2
+"let g:rails_syntax = 1
+"let g:rails_statusline = 1
+"let g:rails_url='http://localhost:3000'
+"let g:rails_subversion=0
 " let g:dbext_default_SQLITE_bin = 'mysql2'
 "let g:rails_default_file='config/database.yml'   " ???
 "let g:rails_default_file="app/controllers/application.rb"
-let g:rails_devalut_database = 'mysql'
+"let g:rails_devalut_database = 'mysql'
 " let g:rails_ctags_arguments = ''
 
 "function! SetUpRailsSetting()
