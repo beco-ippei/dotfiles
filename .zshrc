@@ -40,6 +40,8 @@ SAVEHIST=10000
 # Then, source plugins and add commands to $PATH
 zplug load
 
+# case insensitive completion
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 alias ll="ls -l"
 alias l="ls -al"
