@@ -2,7 +2,8 @@
   ui = auto
 
 [alias]
-  ll = log --decorate --oneline --graph
+  ll = log --decorate --pretty=format:'%C(auto)%h %Cgreen%as%C(auto)%d %Creset%s %Cblue> %an' --graph
+  #ll = log --decorate --oneline --graph
   s = status
   ls-ignore = ls-files -v | grep -e '^[^H]'
 

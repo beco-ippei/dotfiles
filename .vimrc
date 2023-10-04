@@ -33,6 +33,8 @@ call dein#add('vim-scripts/nginx.vim', {'on_ft': 'nginx'})
 "call dein#add('google/vim-ft-go')
 call dein#add('vim-ruby/vim-ruby', {'on_ft': 'ruby'})
 call dein#add('tpope/vim-rails', {'on_ft': 'ruby'})
+call dein#add('joker1007/vim-ruby-heredoc-syntax', {'on_ft': 'ruby'})
+"call dein#add('rails.vim', {'on_ft': 'ruby'})
 call dein#add('slim-template/vim-slim', {'on_ft': 'slim'})
 
 " Required:
