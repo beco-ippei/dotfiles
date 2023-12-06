@@ -1,0 +1,25 @@
+# 参考設定 https://zenn.dev/tekkoc/scraps/218aeb3d68f508
+
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'vim-scripts/quickrun.vim'
+hook_post_update = '''
+  nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+  let g:quickrun_config = {}
+  let g:quickrun_config['javascript'] = {'command': 'node'}
+  let g:quickrun_config['rspec'] = {'command': 'bundle exec rspec'}
+'''
+
+[[plugins]]
+repo = 'othree/yajs'
+on_ft = 'javascript'
+
+[[plugins]]
+repo = 'pangloss/vim-javascript'
+on_ft = 'javascript'
+
+[[plugins]]
+repo = 'jelera/vim-javascript-syntax'
+on_ft = 'javascript'
