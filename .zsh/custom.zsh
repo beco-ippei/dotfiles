@@ -12,6 +12,8 @@ alias l='ls -lA1'
 
 alias find_pi="arp -a | grep 'b8:27:eb' | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+'"
 
+alias vim='nvim'
+
 alias tmuxs='
 tmux rename-window zsh
 tmux split-window -h
