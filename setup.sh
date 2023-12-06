@@ -6,6 +6,7 @@ files+=(".zsh/p10k.zsh")
 files+=(".zsh/custom.zsh" ".zsh/dev.zsh" ".zsh/ruby.zsh" ".zsh/go.zsh")
 files+=(".bundle/config")
 files+=(".vim/*")
+files+=(".config/nvim/*")
 
 if [ ! -d "_backup/" ]; then
   mkdir _backup/
@@ -18,6 +19,9 @@ if [ ! -d "$HOME/.bundle/" ]; then
 fi
 if [ ! -d "$HOME/.vim/" ]; then
   mkdir -p $HOME/.vim/
+fi
+if [ ! -d "$HOME/.config/nvim/" ]; then
+  mkdir -p $HOME/.config/nvim/
 fi
 
 curdir=`pwd`
@@ -40,7 +44,12 @@ for file in $files[@]; do
       if [ -f "$HOME/$file" ]; then
         mv $HOME/$file $bkupdir/
       fi
-      ln -s $curdir/$file $HOME/${file}
+      link_files=$(cd $HOME; ls ${file})
+      # for f in `ls $HOME/${file}`; do
+      for f in $link_files; do
+        ln -s $curdir/$f $HOME/${f}
+      done
+      # ln -s $curdir/$file $HOME/${file}
       echo "${file} is backuped and created symlink"
       ;;
   esac

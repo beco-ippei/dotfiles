@@ -51,12 +51,9 @@ vnoremap < <gv
 vnoremap > >gv
 
 
-" ------------------------------------------------------------
-" dein.vim set up
-" ------------------------------------------------------------
-if &compatible
-  set nocompatible               " Be iMproved
-endif
+" Ward off unexpected things that your distro might have made, as
+" well as sanely reset options when re-sourcing .vimrc
+set nocompatible
 
 " dir
 let s:dein_dir = expand('~/.cache/dein')
@@ -64,28 +61,37 @@ let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 let s:toml_dir = expand('~/.config/nvim')
 
 " Required:
-"set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 execute 'set runtimepath^=' . s:dein_repo_dir
 
-" Required:
-if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir)
+" Call Dein initialization (required)
+call dein#begin(s:dein_dir)
 
-  " Add or remove your plugins here like this:
-  call dein#load_toml(s:toml_dir . '/dein.toml', {'lazy': 0})
-  call dein#load_toml(s:toml_dir . '/lazy.toml', {'lazy': 1})
+" call dein#add(s:dein_repo_dir)
 
-  " Required:
-  call dein#end()
-  call dein#save_state()
+" Your plugins go here:
+"call dein#add('Shougo/neosnippet.vim')
+"call dein#add('Shougo/neosnippet-snippets')
+
+" Add or remove your plugins here like this:
+call dein#load_toml(s:toml_dir . '/dein.toml', {'lazy': 0})
+call dein#load_toml(s:toml_dir . '/lazy.toml', {'lazy': 1})
+
+" Finish Dein initialization (required)
+call dein#end()
+
+" Attempt to determine the type of a file based on its name and possibly its
+" contents. Use this to allow intelligent auto-indenting for each filetype,
+" and for plugins that are filetype specific.
+if has('filetype')
+  filetype indent plugin on
 endif
 
-" Required:
-filetype plugin indent on
-syntax enable
+" Enable syntax highlighting
+if has('syntax')
+  syntax on
+endif
 
-" If you want to install not installed plugins on startup.
+" Uncomment if you want to install not-installed plugins on startup.
 if dein#check_install()
-  call dein#install()
+ call dein#install()
 endif
-
