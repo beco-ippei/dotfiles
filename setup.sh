@@ -1,12 +1,12 @@
 #!/bin/zsh
 files=(".gitconfig" ".gitignore_global")
-files+=(".screenrc" ".tmux.conf" ".vimrc" ".vimshrc" ".zshrc")
+files+=(".screenrc" ".tmux.conf" ".zshrc")
+#files+=(".vimrc" ".vimshrc" ".vim/*")
 files+=(".rspec")
 files+=(".zsh/p10k.zsh")
 files+=(".zsh/custom.zsh" ".zsh/dev.zsh" ".zsh/ruby.zsh" ".zsh/go.zsh")
 files+=(".bundle/config")
-files+=(".vim/*")
-files+=(".config/nvim/*")
+files+=(".config/nvim/*" ".config/nvim/lua/*")
 
 if [ ! -d "_backup/" ]; then
   mkdir _backup/
@@ -17,9 +17,9 @@ fi
 if [ ! -d "$HOME/.bundle/" ]; then
   mkdir $HOME/.bundle/
 fi
-if [ ! -d "$HOME/.vim/" ]; then
-  mkdir -p $HOME/.vim/
-fi
+#if [ ! -d "$HOME/.vim/" ]; then
+#  mkdir -p $HOME/.vim/
+#fi
 if [ ! -d "$HOME/.config/nvim/" ]; then
   mkdir -p $HOME/.config/nvim/
 fi

@@ -1,3 +1,4 @@
 .svn/
 tags
 .DS_Store
+.node-version
