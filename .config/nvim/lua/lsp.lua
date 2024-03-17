@@ -134,7 +134,9 @@ lspconfig.tsserver.setup{}
 -- python
 lspconfig.pyright.setup{}
 
--- Ruby用の設定
+-- ruby / rails
+lspconfig.ruby_ls.setup{}
+--lspconfig.steep.setup{}
 --lspconfig.steep.setup({
 --  on_attach = function(client, buffer)
 --    on_attach(client, bufnr)
@@ -150,8 +152,7 @@ lspconfig.pyright.setup{}
 --  end,
 --})
 
--- ruby / rails
-lspconfig.solargraph.setup{}
+--lspconfig.solargraph.setup{}
 
 -- ReactやRailsの開発でよく使用されるテキストオブジェクトや移動の拡張
 -- vim.cmd [[packadd vim-textobj-user]]
