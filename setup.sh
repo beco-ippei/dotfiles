@@ -1,14 +1,13 @@
-#/bin/zsh
+#!/bin/zsh
 set -e
 
 files=(".gitconfig" ".gitignore_global")
 files+=(".screenrc" ".tmux.conf" ".zshrc")
-#files+=(".vimrc" ".vimshrc" ".vim/*")
 files+=(".rspec")
 files+=(".zsh/p10k.zsh")
 files+=(".zsh/custom.zsh" ".zsh/dev.zsh" ".zsh/ruby.zsh" ".zsh/go.zsh")
 files+=(".bundle/config")
-files+=(".config/nvim/init.lua" `egrep -q ".config/nvim/lua/*"`)
+files+=(".config/nvim/init.lua" `ls ".config/nvim/lua/*.lua"`)
 
 if [ ! -d "_backup/" ]; then
   mkdir _backup/
@@ -19,16 +18,20 @@ fi
 if [ ! -d "$HOME/.bundle/" ]; then
   mkdir $HOME/.bundle/
 fi
-#if [ ! -d "$HOME/.vim/" ]; then
-#  mkdir -p $HOME/.vim/
-#fi
 if [ ! -d "$HOME/.config/nvim/" ]; then
   mkdir -p $HOME/.config/nvim/
+fi
+if [ ! -d "$HOME/.config/nvim/lua" ]; then
+  mkdir -p $HOME/.config/nvim/lua
 fi
 
 curdir=`pwd`
 
+echo "動いていない"
+exit 1
+
 for file in $files[@]; do
+  echo " >>> file = $file"
   bkupdir="${curdir}/_backup/"
   file_dir="${file%/*}"
   if [ $file_dir ] && [ $file_dir != $file ]; then
@@ -50,10 +53,11 @@ for file in $files[@]; do
       #echo ">>> link_files = '${link_files}'"
       #for f in $link_files; do
       #for f in $(cd $curdir; ls $file); do
-      #for f in $file; do
-      #  #ln -s $curdir/$f $HOME/${f}
-      #  echo ">>> ln -s $curdir/$f $HOME/${f}"
-      #done
+      # TODO: 動いてない
+      for f in $file; do
+        ln -s $curdir/$f $HOME/${f}
+        #echo ">>> ln -s $curdir/$f $HOME/${f}"
+      done
       ln -s $curdir/$file $HOME/${file}
       echo "${file} is backuped and created symlink"
       ;;
