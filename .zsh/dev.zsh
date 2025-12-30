@@ -16,3 +16,4 @@ export PATH="/Users/i.kato/.pyenv/shims/python2:${PATH}"
 export PATH="$HOME/.anyenv/bin:$PATH"
 eval "$(anyenv init -)"
 
+eval "$(mise activate zsh)"

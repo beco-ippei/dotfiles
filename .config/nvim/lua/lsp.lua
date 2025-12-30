@@ -1,45 +1,65 @@
--- plugins.lua の後に読み込む
+-- plugins.lua の後に読み込まれる前提
 
--- LSPの設定
 local lspconfig = require('lspconfig')
+local mason = require('mason')
+local mason_lspconfig = require('mason-lspconfig')
 
--- 1. LSP Sever management
-require('mason').setup()
-require('mason-lspconfig').setup_handlers({ function(server)
-  local opt = {
-    -- -- Function executed when the LSP server startup
-    -- on_attach = function(client, bufnr)
-    --   local opts = { noremap=true, silent=true }
-    --   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    --   vim.cmd 'autocmd BufWritePre * lua vim.lsp.buf.formatting_sync(nil, 1000)'
-    -- end,
-    capabilities = require('cmp_nvim_lsp').update_capabilities(
-      vim.lsp.protocol.make_client_capabilities()
-    )
-  }
+-----------------------------------------------------------
+-- 1. Mason & LSP Setup (ここが核心)
+-----------------------------------------------------------
+mason.setup()
 
-  lspconfig[server].setup(opt)
-end })
+mason_lspconfig.setup({
+  -- 自動インストールするサーバーリスト
+  -- ruby_ls は古いので ruby_lsp に変更しました
+  ensure_installed = { "ts_ls", "pyright", "ruby_lsp" }, 
 
--- 2. build-in LSP function
--- keyboard shortcut
+  -- ハンドラー定義: ここに書けば個別の .setup{} は不要です
+  handlers = {
+    function(server_name)
+      local opts = {
+        -- vim.tbl_islist 対策済みの capabilities を取得
+        capabilities = require('cmp_nvim_lsp').default_capabilities(),
+      }
+
+      -- 特定のサーバーだけ設定を変えたい場合はここで分岐
+      -- 例: ruby_lsp の場合
+      -- if server_name == "ruby_lsp" then
+      --    opts.init_options = { formatter = "auto" }
+      -- end
+
+      -- セットアップ実行
+      lspconfig[server_name].setup(opts)
+    end,
+  },
+})
+
+-----------------------------------------------------------
+-- 2. Keymaps (LSP用ショートカット)
+-----------------------------------------------------------
+-- K でドキュメント表示
 vim.keymap.set('n', 'K',  '<cmd>lua vim.lsp.buf.hover()<CR>')
---vim.keymap.set('n', 'gf', '<cmd>lua vim.lsp.buf.formatting()<CR>')
-vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
+-- 定義ジャンプ系
 vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
 vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
 vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
+vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
 vim.keymap.set('n', 'gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+-- 名前変更
 vim.keymap.set('n', 'gn', '<cmd>lua vim.lsp.buf.rename()<CR>')
+-- コードアクション
 vim.keymap.set('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+-- 診断（エラー）表示
 vim.keymap.set('n', 'ge', '<cmd>lua vim.diagnostic.open_float()<CR>')
 vim.keymap.set('n', 'g]', '<cmd>lua vim.diagnostic.goto_next()<CR>')
 vim.keymap.set('n', 'g[', '<cmd>lua vim.diagnostic.goto_prev()<CR>')
--- LSP handlers
+
+-- 診断の表示設定（仮想テキストをオフにするなど）
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
+  vim.diagnostic.on_publish_diagnostics, { virtual_text = false }
 )
--- Reference highlight
+
+-- Reference highlight (カーソル下の単語をハイライト)
 vim.cmd [[
 set updatetime=500
 highlight LspReferenceText  cterm=underline ctermfg=1 ctermbg=8 gui=underline guifg=#A00000 guibg=#104040
@@ -50,10 +70,15 @@ augroup lsp_document_highlight
   autocmd CursorMoved,CursorMovedI * lua vim.lsp.buf.clear_references()
 augroup END
 ]]
--- エラーになったので避けておく
---  autocmd CursorHold,CursorHoldI * lua vim.lsp.buf.document_highlight()
+-- 自動ハイライトを有効化する場合は以下をコメントアウト解除
+-- vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+--   group = "lsp_document_highlight",
+--   callback = function() vim.lsp.buf.document_highlight() end,
+-- })
 
--- 3. completion (hrsh7th/nvim-cmp)
+-----------------------------------------------------------
+-- 3. Completion (nvim-cmp)
+-----------------------------------------------------------
 local cmp = require("cmp")
 cmp.setup({
   snippet = {
@@ -78,82 +103,3 @@ cmp.setup({
   },
 })
 
--- TODO: keymap のサンプル
--- local on_attach = function(client, bufnr)
---   -- LSPサーバーのフォーマット機能を無効にするには下の行をコメントアウト
---   -- 例えばtypescript-language-serverにはコードのフォーマット機能が付いているが代わりにprettierでフォーマットしたいときなど
---   -- client.resolved_capabilities.document_formatting = false
--- 
---   local set = vim.keymap.set
---   set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>")
---   set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>")
---   set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>")
---   set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>")
---   set("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
---   set("n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>")
---   set("n", "<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>")
---   set("n", "<space>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>")
---   set("n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>")
---   set("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>")
---   set("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
---   set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>")
---   set("n", "<space>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>")
---   set("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>")
---   set("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>")
---   set("n", "<space>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>")
---   set("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>")
--- end
-
--- cmp.setup.cmdline('/', {
---   mapping = cmp.mapping.preset.cmdline(),
---   sources = {
---     { name = 'buffer' }
---   }
--- })
--- cmp.setup.cmdline(":", {
---   mapping = cmp.mapping.preset.cmdline(),
---   sources = {
---     { name = "path" },
---     { name = "cmdline" },
---   },
--- })
-
--- 補完の設定
---local cmp = require "cmp"
---local default_config = require "cmp.config.default"()
---cmp.setup({
---  sources = cmp.config.sources({
---    { name = "nvim_lsp" },
---    { name = "nvim_lsp_signature_help" },
---  }),
---})
-
--- TypeScript / JavaScript用の設定
-lspconfig.tsserver.setup{}
-
--- python
-lspconfig.pyright.setup{}
-
--- ruby / rails
-lspconfig.ruby_ls.setup{}
---lspconfig.steep.setup{}
---lspconfig.steep.setup({
---  on_attach = function(client, buffer)
---    on_attach(client, bufnr)
---    -- 手動で型チェックリストを送るコマンド
---    vim.keymap.set("n", "<space>ct", function()
---      client.request("$/typecheck", { guid = "typecheck" .. os.time() }, function() end, bufnr)
---    end, { silent = true, buffer = bufnr })
---  end,
---  on_new_config = function(config, root_dir)
---    -- bundler 環境下で起動する場合の調整
---    add_bundle_exec(config, "steep", root_dir)
---    return config
---  end,
---})
-
---lspconfig.solargraph.setup{}
-
--- ReactやRailsの開発でよく使用されるテキストオブジェクトや移動の拡張
--- vim.cmd [[packadd vim-textobj-user]]
--- vim.cmd [[packadd vim-textobj-rubyblock]]
