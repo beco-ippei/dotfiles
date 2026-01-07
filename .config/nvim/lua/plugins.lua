@@ -37,12 +37,14 @@ packer.startup(function()
     'nvim-lualine/lualine.nvim',
     requires = { 'nvim-tree/nvim-web-devicons', opt = true }
   }
+
+  -- カラースキーム
+  use 'folke/tokyonight.nvim'
+  use 'catppuccin/nvim'
+  use({ 'rose-pine/neovim', as = 'rose-pine' })
 end)
 packer.install()
 
-
--- テーマとカラースキーム（例: gruvbox）
--- vim.cmd [[colorscheme gruvbox]]
 
 -- Gitの統合
 -- vim.cmd [[packadd vim-fugitive]]

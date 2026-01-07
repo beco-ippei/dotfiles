@@ -4,13 +4,22 @@ vim.cmd('autocmd!')
 vim.scriptencoding = 'utf-8'
 --vim.wo.number = true
 
+-- Syntax highlighting
+vim.cmd('syntax enable')
+vim.opt.termguicolors = true
+
 local options = {
   title = true,
   number = true,
+  relativenumber = true, -- 相対行番号
   ignorecase = true,
+  smartcase = true, -- 大文字が含まれる場合のみ大文字小文字を区別
   wildmenu = true,
   wrap = true,
   swapfile = false,
+  backup = false, -- バックアップファイルを作らない
+  writebackup = false,
+  undofile = true, -- undoファイルを有効化
   -- インデント
   tabstop = 2,
   shiftwidth = 2,
@@ -22,8 +31,13 @@ local options = {
   listchars = "tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%",
   --statusline = "%F%m%r%h%w\%=[FMT=%{&ff}]\[TYPE=%Y]\%{'[ENC='.(&fenc!=''?&fenc:&enc).']'}\[POS=%05l/%05L]",
   cursorline = true,
+  signcolumn = "yes", -- 左端のサインカラムを常に表示
+  scrolloff = 8, -- スクロール時の余白
+  sidescrolloff = 8,
   -- search
   wrapscan = false,
+  hlsearch = true, -- 検索結果をハイライト
+  incsearch = true, -- インクリメンタルサーチ
 }
 
 ---- 見た目の調整
