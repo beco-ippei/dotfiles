@@ -5,24 +5,25 @@ if not status then
 end
 
 treesitter.setup({
-  -- インストールする言語パーサー（必要なものを追加）
+  -- Rails + React 開発用のパーサー
   ensure_installed = {
+    "ruby",
+    "javascript",
+    "typescript",
+    "tsx",
+    "jsx",
+    "html",
+    "css",
+    "scss",
+    "json",
+    "yaml",
+    "sql",
+    "bash",
     "lua",
     "vim",
     "vimdoc",
-    "javascript",
-    "typescript",
-    "python",
-    "go",
-    "rust",
-    "json",
-    "yaml",
-    "toml",
     "markdown",
     "markdown_inline",
-    "bash",
-    "html",
-    "css",
   },
 
   -- 自動インストール
