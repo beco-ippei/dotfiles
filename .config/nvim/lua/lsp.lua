@@ -133,15 +133,20 @@ augroup END
 -----------------------------------------------------------
 -- 3. Completion (nvim-cmp)
 -----------------------------------------------------------
+-- LuaSnip設定
+local luasnip = require("luasnip")
+require("luasnip.loaders.from_vscode").lazy_load() -- friendly-snippetsを読み込み
+
 local cmp = require("cmp")
 cmp.setup({
   snippet = {
     expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body)
+      luasnip.lsp_expand(args.body)
     end,
   },
   sources = {
     { name = "nvim_lsp", priority = 1000 },
+    { name = "luasnip", priority = 750 },
     { name = "buffer", priority = 500, keyword_length = 3 },
     { name = "path", priority = 250 },
   },
@@ -151,6 +156,25 @@ cmp.setup({
     ['<C-l>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
     ["<CR>"] = cmp.mapping.confirm { select = true },
+    -- スニペットジャンプ
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
   }),
   experimental = {
     ghost_text = true,

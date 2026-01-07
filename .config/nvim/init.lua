@@ -3,6 +3,7 @@
 require('base')
 require('plugins')
 require('treesitter')
+require('editing')  -- 編集機能（autopairs, surround, comment, gitsigns, emmet）
 require('statusline')
 require('keymap')
 require('lsp')

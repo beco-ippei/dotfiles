@@ -13,10 +13,14 @@ packer.startup(function()
   use 'neovim/nvim-lspconfig'
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/nvim-cmp'
-  use 'hrsh7th/vim-vsnip'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
+
+  -- Snippets (vsnipから移行)
+  use 'L3MON4D3/LuaSnip'
+  use 'saadparwaiz1/cmp_luasnip'
+  use 'rafamadriz/friendly-snippets'
 
   --use({
   --  'neoclide/coc.nvim',
@@ -37,6 +41,13 @@ packer.startup(function()
     'nvim-lualine/lualine.nvim',
     requires = { 'nvim-tree/nvim-web-devicons', opt = true }
   }
+
+  -- 生産性向上プラグイン
+  use 'windwp/nvim-autopairs'        -- 自動ペア（括弧、クォート）
+  use 'kylechui/nvim-surround'       -- Surround機能
+  use 'mattn/emmet-vim'               -- Emmet（HTML/JSX高速入力）
+  use 'lewis6991/gitsigns.nvim'      -- Git統合（差分表示）
+  use 'numToStr/Comment.nvim'        -- コメント機能
 
   -- カラースキーム
   use 'folke/tokyonight.nvim'        -- Tokyo Night（暗め、青系）
