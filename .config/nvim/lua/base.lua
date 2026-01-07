@@ -39,3 +39,18 @@ vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*",
   command = "set fo-=c fo-=r fo-=o",
 })
+
+-- 外部でファイルが変更されたら自動で読み直す
+vim.o.autoread = true
+
+-- フォーカスが戻った時やバッファに入った時にチェックを走らせる
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  command = "if mode() != 'c' | checktime | endif",
+  pattern = { "*" },
+})
+
+-- 変更があったことを通知する（お好みで）
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+  command = "echohl WarningMsg | echo 'File changed on disk. Buffer reloaded.' | echohl None",
+  pattern = { "*" },
+})

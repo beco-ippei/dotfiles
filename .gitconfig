@@ -12,6 +12,6 @@
 	email = ippei@katou.me
 [core]
   excludesfile = ~/.gitignore_global
-  editor = /usr/bin/vim
+  editor = nvim
 [init]
 	defaultBranch = main
