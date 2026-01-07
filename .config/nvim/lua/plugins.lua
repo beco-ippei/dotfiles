@@ -39,9 +39,14 @@ packer.startup(function()
   }
 
   -- カラースキーム
-  use 'folke/tokyonight.nvim'
-  use 'catppuccin/nvim'
-  use({ 'rose-pine/neovim', as = 'rose-pine' })
+  use 'folke/tokyonight.nvim'        -- Tokyo Night（暗め、青系）
+  use 'catppuccin/nvim'              -- Catppuccin（柔らかい、パステル）
+  use({ 'rose-pine/neovim', as = 'rose-pine' })  -- Rose Pine（落ち着いた）
+  use 'AlexvZyl/nordic.nvim'         -- Nordic（北欧風、暗め）
+  use 'rebelot/kanagawa.nvim'        -- Kanagawa（日本画風）
+  use 'ellisonleao/gruvbox.nvim'     -- Gruvbox（レトロ、暖色）
+  use 'navarasu/onedark.nvim'        -- OneDark（VSCode風）
+  use 'EdenEast/nightfox.nvim'       -- Nightfox（複数バリエーション）
 end)
 packer.install()
 
