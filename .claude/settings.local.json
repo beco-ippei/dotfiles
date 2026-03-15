@@ -1,7 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(gh auth:*)",
+      "Bash(gh repo list:*)",
+      "Bash(gh repo view:*)",
+      "Bash(python3:*)",
+      "Bash(gh api repos/HotStartup/peraichi-observability --jq '{description: .description, created_at: .created_at, updated_at: .updated_at, homepage: .homepage}' gh api repos/HotStartup/peraichi-observability/contents/ --jq .[].name)",
+      "Bash(gh api:*)"
     ]
   }
 }
